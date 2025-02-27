@@ -1,0 +1,181 @@
+2025.02.27:
+* fixed: scripts/ProductKey/*.py: error message `SyntaxWarning: invalid escape sequence '\M'`
+* new: README.md: markdown readme file
+* new: license.txt: license file
+* changed: project extracted from `contools` project
+* changed: scripts: readmes update
+
+===============================================================================
+
+2025.02.11:
+* changed: Scripts/Tools/admin: 01_disable_*_win8.bat: scripts switched to use `cmd_admin_system.bat` and `is_system_elevated.bat` scripts
+
+2025.02.02:
+* fixed: Scripts/Tools/admin/Maintenance/01_disable_maintenance_win8.bat: elevate to `System` account to circumvent Task Scheduler `The user account you are operating under does not have permission to disable this task.` error message
+* new: Scripts/Tools/admin/Telemetry/01_disable_telemetry_junk_win8.bat: telemetry disable script from Microsoft and others
+
+2025.01.25:
+* new: Scripts/Tools/admin/Maintenance/01_disable_maintenance_win8.bat: Windows 8 maintenance disable script
+* refactor: Scripts/Tools/admin/Telemetry/01_disable_telemetry_junk_win7.bat: minor refactor
+
+2024.11.02:
+* changed: Scripts/Tools/admin/RecentLists, TODO.txt: moved to `contools--recent-lists` project
+
+2024.09.03:
+* fixed: Scripts/Tools/admin/Wincred/newcred.bat: single quote in arguments escape
+
+2024.09.03:
+* fixed: Scripts/Tools/admin/Junction: scripts fixup and improvement
+
+2024.08.31:
+* fixed: Scripts/Tools/admin/Wincred/newcred.bat: special characters in arguments workaround
+
+2024.08.31:
+* new: Scripts/Tools/admin/Wincred: Windows credentials maintain scripts
+
+2024.08.12:
+* changed: Scripts/Tools/admin/ProductKey/WinReg.py: code cleanup
+
+2024.02.17:
+* changed: Scripts/Tools/admin/WindowsServices/MicrosoftOffice: another service
+
+2024.02.14:
+* changed: Scripts/Tools/admin/WindowsServices/*.bat: added request of Administrative privileges and pause
+
+2024.02.13:
+* new: Scripts/Tools/admin/VirtualBox/compact_vdi.bat: read the installation directory from the registry
+
+2024.01.23:
+* changed: Scripts/Tools/admin/VirtualBox/compact_vdi.bat: improvements
+* changed: Scripts/Tools/admin/VisualStudio/README_EN.txt: readme update
+* refactor: Scripts/Tools/admin: minor refactor
+
+2023.12.10:
+* refactor: Scripts/Tools/admin: `__init__.bat` scripts moved into `__init__` subdirectory
+
+2023.10.15:
+* new: Scripts/Tools/admin/Junction: scripts to list, read and recreate junction points
+
+2023.05.11:
+* new: Scripts/Tools/admin/RecentLists/cleanup_totalcmd.bat: added Total Commander recent lists cleanup
+* new: Scripts/Tools/admin/RecentLists/lists/README_EN.txt: lists format readme file
+* changed: Scripts/Tools/admin/RecentLists: minor improvements
+
+2023.04.18:
+* new: Scripts/Tools/admin/Activation: added scripts for free Windows 8/8.1 activation using `msguides.com` site
+
+2023.04.07:
+* new: Scripts/Tools/admin/Telemetry/05_disable_telemetry_junk_win7.bat: added another disable script
+
+2023.03.04:
+* new: Scripts/Tools/admin/DeviceManager/run_devmgmt.bat: script to run Device Manager with nonpresent hidden devices to uninstall inactive devices
+
+2023.03.03:
+* new: Scripts/Tools/admin/VirtualBox/README_EN.txt: tcp and udp port forwarding details
+* changed: Scripts/Tools/admin/VirtualBox/README_EN.txt: readme cleanup
+
+2023.03.01:
+* new: Scripts/Tools/admin/VirtualBox/README_EN.txt: VirtualBox shared VPN setup
+
+2023.02.21:
+* changed: Scripts/Tools/admin: KnownIssues/admin_*.txt, ProductKey/admin_*.txt, Steam/README_EN.txt, Telemetry/admin_*.txt, VisualStudio/README_EN.txt, README_EN.txt: readme cleanup
+
+2023.02.19:
+* new: Scripts/Tools/admin/FireFox/default-shell-open-commands.reg: Firefox default shell open commands to open shortcuts in private browsing by default to avoid cookies usage from 3dparty applications
+
+2023.02.08:
+* new: Scripts/Tools/admin/RecentLists: added scripts and pattern lists of registry keys to cleanup recent (file) lists in the windows registry for various applications
+
+2022.12.20:
+* new: Scripts/Tools/admin/KnownIssues: added `admin_windows7_virtualbox_known_issues.txt` file for VirtualBox known issues under Windows 7
+
+2022.10.22:
+* changed: Scripts/Tools/admin/ProductKey/admin_windows7_product_key_manipulation.txt: added `known issues` section
+
+2022.10.14:
+* fixed: Scripts/Tools/admin/VisualStudio: `--update` flag usage fixup
+
+2022.10.14:
+* changed: Scripts/Tools/admin/VisualStudio: new Visual Studio 2017/2019/2022 layout create/run uniform scripts and readme
+
+2022.09.27:
+* changed: Scripts/Tools/admin/ProductKey/admin_windows7_product_key_manipulation.txt: added install/activation details
+
+2022.05.10:
+* new: Scripts/Tools/admin/WindowsServices: WUS, Epson Printer scripts
+
+2020.12.12:
+* new: Scripts/Tools/admin/WindowsServices: VirtualBox enable/disable scripts
+
+2020.07.10:
+* new: Scripts/Tools/admin/WindowsServices: GoogleUpdate enable/disable scripts
+* refactor: Scripts/Tools/admin: moved all Windows services scripts into WindowsServices directory
+
+2020.01.25:
+* new: Scripts/Tools/admin/VisualStudio: Visual Studio 2017 layout create/run scripts
+
+2020.01.22:
+* new: Scripts/Tools/admin/Photoshop: enable/disable scripts for the Photoshop services
+
+2020.01.11:
+* new: Scripts/Tools/admin/VMware: enable/disable scripts for the VMware services
+
+2019.12.10:
+* new: Scripts/Tools/admin/MicrosoftOffice: enable/disable scripts for the Microsoft Office 2013 (15.0) services
+
+2019.11.14:
+* new: Scripts/Tools/admin: `scan_broken_reg_keys.py` python script to search for broken Windows registry keys
+
+2019.08.17:
+* changed: Scripts/Tools/admin/ProductKey: missed changes
+
+2019.07.06:
+* changed: Scripts/Tools/admin/Telemetry: 04_disable_telemetry_junk_win7.bat: more details
+
+2019.07.06:
+* changed: Scripts/Tools/admin/Telemetry: added commands self print into stdout, lines separator
+
+2019.07.06:
+* new: Scripts/Tools/admin: added `description` and `repositories` sections in respective text files to be able to find new versions
+* removed: Scripts/Tools/admin: WSUS moved to the KnownIssues
+
+2019.07.06:
+* new: Scripts/Tools/admin/KnownIssues: `admin_windows7_crash_updates.txt` file to list updates which might crash the system after reboot
+* new: Scripts/Tools/admin/KnownIssues: `admin_windows7_known_issues.txt` file to list known issues and solutions for them
+* new: Scripts/Tools/admin/Telemetry: `admin_windows7_telemetry_precaution.txt` file to describe steps to remove or block telemetry injection in the Windows7
+
+2019.07.03:
+* changed: Scripts/Tools/admin/Telemetry: minor change
+
+2019.07.02:
+* changed: Scripts/Tools/admin/Telemetry: add interation with the user to ask for quiet uninstall (now is not by default, because Event Viewer can contain errors after unsuccessful uninstall and user might not to known that)
+
+2019.06.20:
+* new: Scripts/Tools/admin/WSUS: `ProbableIssues.txt`
+
+2019.05.11:
+* changed: Scripts/Tools/admin/ProductKey: minor readme update
+
+2019.04.22:
+* new: Scripts/Tools/admin/VM: `compact_vdi.bat` script to call the VirtualBox compact command on all `*.vdi` files in a directory
+
+2019.04.14:
+* new: Scripts/Tools/admin: `comspec_as_svc.bat` script to run cmd.exe interactively in the Local System Account (Seesion 0 process)
+
+2019.04.05:
+* new: Scripts/Tools/admin: `test_connect.bat` script to test remote ports on open (PowerShell)
+
+2019.03.20:
+* new: Scripts/Tools/admin/Telemetry: more windows 7 crashing updates
+
+2019.03.20:
+* new: Scripts/Tools/admin/Telemetry: windows 7 updates crashing the boot
+
+2019.03.20:
+* new: Scripts/Tools/admin/Telemetry: more windows 7 junk disabler scripts
+
+2019.01.11:
+* fixed: Scripts/Tools/admin: Telemetry/disable_telemetry_junk_win7.bat script execution on fresh installed Windows
+
+2018.12.23:
+* new: Scripts/Tools/admin: WMI/fix_reactivated_in_namespace_eventviewer_error_Event_ID_10.vbs script to fix `Event ID 10` error in the event viewer

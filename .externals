@@ -1,0 +1,19 @@
+repositories:
+
+  _externals/contools:
+    type:         git
+    url:          https://github.com/andry81/contools
+    version:      master
+    subpaths:
+      - __init__
+      - _config
+      - Scripts/__init__
+      - Scripts/Tools/__init__
+      - Scripts/Tools/std
+      - Scripts/Tools/ToolAdaptors/__init__
+      - Scripts/Tools/ToolAdaptors/hta
+
+  _externals/sysinternals:
+    type:         git
+    url:          https://github.com/andry81-3dparty/external-tools--sysinternals
+    version:      20230412
