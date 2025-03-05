@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2024.08.31
+* 2025.03.05
 * contools--admin/wincred
 
 1. DESCRIPTION
@@ -51,7 +51,13 @@ Files:
      `fatal: Authentication failed for 'https://github.com/USER/REPO/'`
 -------------------------------------------------------------------------------
 Details:
-https://github.com/orgs/community/discussions/133133#discussioncomment-10443908
+  * https://gist.github.com/andry81/4dc954fc98a84807195080c6d2c5bc72 :
+    `GitHub credentials notable details and changes`
+  * https://github.com/orgs/community/discussions/133133#discussioncomment-10443908 :
+    `Whenever I want to push any change from my local to my github via
+     terminal, showing "Remote: Invalid username or password." I deleted my
+     personal token from the github and reinstalled the git in my system. But
+     not working.`
 
 The GitHub now requires 2 credentials instead of one as was before for
 `https://github.com/USER/REPO` remotes:
@@ -68,13 +74,30 @@ The GitHub now requires 2 credentials instead of one as was before for
   Pass: `PASS`
   Persistence: `Local computer`
 
-The second one must be with persistence `Local computer`, otherwise won't
-work (!).
+CAUTION:
+  This must be with persistence `Local computer`, otherwise won't work!
 
-This one can not be added through the Control Panel Credential Manager nor
-`cmdkey.exe` utility.
-The details how to add through the PowerShell:
-https://serverfault.com/questions/920048/change-persistence-type-of-windows-credentials-from-enterprise-to-local-compu
+CAUTION:
+  This can not be added through the `Windows Credential Manager` nor
+  `cmdkey.exe` utility.
 
-The Git Credential Manager adds the second automatically in the installation:
+NOTE:
+  The details how to add through the PowerShell:
+  https://serverfault.com/questions/920048/change-persistence-type-of-windows-credentials-from-enterprise-to-local-compu
+
+
+The `Git Credential Manager` adds the second automatically in the installation and after:
 https://github.com/git-ecosystem/git-credential-manager
+
+CAUTION:
+  The variable `credential.helper=manager` is required to update the
+  `Windows Credential Manager` records on each Git command call within the Git
+  authentication attempt.
+
+NOTE:
+  The `Git Credential Manager` adds and updates the second record automatically
+  in the installation and after.
+
+NOTE:
+  If the GitHub PAT is expired, then `Git Credential Manager` automatically
+  removes it from the `Windows Credential Manager` records list.

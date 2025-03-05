@@ -1,3 +1,6 @@
+2025.03.05:
+* changed: scripts/Wincred/README_EN.txt: readme update
+
 2025.02.27:
 * fixed: scripts/ProductKey/*.py: error message `SyntaxWarning: invalid escape sequence '\M'`
 * new: README.md: markdown readme file
