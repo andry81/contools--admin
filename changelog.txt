@@ -1,3 +1,11 @@
+2025.03.12:
+* fixed: __init__: execution fixup
+* new: scripts/FileSystem/01_Telemetry/01_clear_file_streams.bat: script to clear alternative file streams recursively
+* new: scripts/*.bat: update `?~` variable as script names call stack: `A.bat->...->Z.bat` instead of `Y.bat: Z.bat` or `Z.bat`
+* changed: scripts/*.bat: global code improvement to replace `echo.%?~nx0%` and `echo.%~nx0` calls by `echo.%?~%`
+* changed: scripts/*.bat: global code improvements
+* refactor: scripts/*.bat: global code refactor
+
 2025.03.05:
 * changed: scripts/Wincred/README_EN.txt: readme update
 

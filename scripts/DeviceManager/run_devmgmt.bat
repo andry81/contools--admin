@@ -7,9 +7,13 @@ rem inactive Network Adapters to uninstall them.
 
 setlocal
 
+rem script names call stack, disabled due to self call and partial inheritance (process elevation does not inherit a parent process variables by default)
+rem if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-^>%~nx0" ) else set "?~=%~nx0"
+set "?~=%~nx0"
+
 rem scripts must run in administrator mode
 call :IS_ADMIN_ELEVATED || (
-  echo.%~nx0: error: run script in administrator mode!
+  echo.%?~%: error: run script in administrator mode!
   exit /b -255
 ) >&2
 

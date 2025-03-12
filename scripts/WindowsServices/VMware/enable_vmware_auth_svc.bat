@@ -2,6 +2,10 @@
 
 setlocal DISABLEDELAYEDEXPANSION
 
+rem script names call stack, disabled due to self call and partial inheritance (process elevation does not inherit a parent process variables by default)
+rem if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-^>%~nx0" ) else set "?~=%~nx0"
+set "?~=%~nx0"
+
 set /A ELEVATED+=0
 
 if %IMPL_MODE%0 NEQ 0 goto IMPL
@@ -56,7 +60,7 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%~nx0: error: process must be elevated before continue.
+  echo.%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 

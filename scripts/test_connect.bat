@@ -2,16 +2,19 @@
 
 setlocal
 
+rem script names call stack
+if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-^>%~nx0" ) else set "?~=%~nx0"
+
 set "DOMAIN=%~1"
 set "PORT=%~2"
 
 if not defined DOMAIN (
-  echo.%~nx0: error: DOMAIN is not defined.
+  echo.%?~%: error: DOMAIN is not defined.
   exit /b 127
 ) >&2
 
 if not defined PORT (
-  echo.%~nx0: error: PORT is not defined.
+  echo.%?~%: error: PORT is not defined.
   exit /b 128
 ) >&2
 

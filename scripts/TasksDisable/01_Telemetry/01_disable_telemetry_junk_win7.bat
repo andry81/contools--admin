@@ -8,13 +8,17 @@ setlocal
 
 call "%%~dp0..\__init__\__init__.bat"
 
+rem script names call stack, disabled due to self call and partial inheritance (process elevation does not inherit a parent process variables by default)
+rem if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-^>%~nx0" ) else set "?~=%~nx0"
+set "?~=%~nx0"
+
 if 0%IMPL_MODE% NEQ 0 goto IMPL
 "%CONTOOLS_TOOL_ADAPTORS_ROOT%/hta/cmd_admin.bat" /c @set "IMPL_MODE=1" ^& "%~f0" %*
 exit /b
 
 :IMPL
 call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
-  echo.%~nx0: error: process must be Administrator account elevated to continue.
+  echo.%?~%: error: process must be Administrator account elevated to continue.
   exit /b 255
 ) >&2
 
@@ -29,7 +33,7 @@ if exist "%SystemRoot%\Sysnative\*" (
 )
 
 (
-  echo.%~nx0: error: run script in 64-bit console ONLY (in administrative mode)!
+  echo.%?~%: error: run script in 64-bit console ONLY (in administrative mode)!
   exit /b 255
 ) >&2
 
@@ -76,10 +80,7 @@ rem
 set ?.=@dir "%SystemRoot%\CompatTelRunner.exe" /A:-D /B /O:N /S 2^>nul
 
 echo Updating CompatTelRunner.exe permissions...
-for /F "usebackq eol=; tokens=* delims=" %%i in (`%%?.%%`) do (
-  set "FILE=%%i"
-  call :UPDATE_PERMISSIONS
-)
+for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do set "FILE=%%i" & call :UPDATE_PERMISSIONS
 echo.
 
 exit /b
@@ -89,14 +90,14 @@ echo.^>%FILE%
 if exist "%~dp0retakeowner.exe" goto RETAKEOWNER_WORKAROUND
 
 rem CAUTION: Obsolete implementation, `takeown` and `icacls` does not work anymore on TrustedInstaller protected files!
-echo.%~nx0: warning: system takeown utility may fail to take ownership on TrustedInstaller protected files beginning from Windows 7. Copy `retakeowner.exe` utility into directory with the script to bypass this issue.
+echo.%?~%: warning: system takeown utility may fail to take ownership on TrustedInstaller protected files beginning from Windows 7. Copy `retakeowner.exe` utility into directory with the script to bypass this issue.
 call :CMD takeown /S localhost /U "%%USERNAME%%" /F "%%FILE%%"
 
 goto RETAKEOWNER_WORKAROUND_END
 
 :RETAKEOWNER_WORKAROUND
 call :CMD "%%~dp0retakeowner.exe" "%%FILE%%" "%%USERNAME%%"
-echo.%~nx0: retakeowner last error code: %ERRORLEVEL%
+echo.%?~%: retakeowner last error code: %ERRORLEVEL%
 
 :RETAKEOWNER_WORKAROUND_END
 

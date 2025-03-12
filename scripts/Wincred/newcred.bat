@@ -6,10 +6,14 @@ rem   newcred.bat git:https://USER@github.com USER PASS LocalMachine
 
 setlocal
 
+rem script names call stack, disabled due to self call and partial inheritance (process elevation does not inherit a parent process variables by default)
+rem if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-^>%~nx0" ) else set "?~=%~nx0"
+set "?~=%~nx0"
+
 call :IS_ADMIN_ELEVATED && goto MAIN
 
 (
-  echo.%~nx0: error: process must be elevated before continue.
+  echo.%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
@@ -29,7 +33,7 @@ exit /b 255
 
 :MAIN
 where "powershell.exe" || (
-  echo.%~nx0: error: `powershell.exe` is not found.
+  echo.%?~%: error: `powershell.exe` is not found.
   exit /b 255
 ) >&2
 
