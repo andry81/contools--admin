@@ -72,5 +72,5 @@ for /F "tokens=* delims="eol^= %%i in ("!FILE!") do ^
 for /F "tokens=* delims="eol^= %%j in ("!FILE:\.log\=!") do endlocal & if not "%%i" == "%%j" exit /b
 
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FILE!") do endlocal & ^
-for %%j in (%__STRING__%) do for /F "tokens=* delims="eol^= %%k in ("%%i:%%~j") do if not "%%~zk" == "" (echo.^>%%k) & ( if %%~zk NEQ 0 "%SystemRoot%\System32\findstr.exe" /R /C:".*" < "%%k" & echo.) & type nul > "%%k"
+for %%j in (%__STRING__%) do for /F "tokens=* delims="eol^= %%k in ("%%i:%%~j") do if not "%%~zk" == "" (echo.^>%%k) & ( if %%~zk NEQ 0 "%SystemRoot%\System32\find.exe" /V "" < "%%k" & echo.) & type nul > "%%k"
 exit /b
