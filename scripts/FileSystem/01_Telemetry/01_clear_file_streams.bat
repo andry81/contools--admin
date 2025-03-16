@@ -4,7 +4,8 @@ rem USAGE:
 rem   01_clear_file_streams.bat <glob-path> <streams>...
 
 rem Description:
-rem   Script clears all alternative file streams from files recursively.
+rem   Script clears (not removing) all alternative file streams from files
+rem   recursively using file globbing.
 rem
 
 rem <streams>
@@ -58,7 +59,7 @@ rem   We must expand the command line into a variable to avoid these above.
 rem
 set ?.=@dir "%~1" /A:-D /B /O:N /S 2^>nul
 
-echo Removing alternative file streams...
+echo Clearing alternative file streams...
 for /F "usebackq eol=; tokens=* delims=" %%i in (`%%?.%%`) do set "FILE=%%i" & call :REMOVE_FILE_STREAMS
 echo.
 

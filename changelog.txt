@@ -1,3 +1,6 @@
+2025.03.16:
+* changed: scripts/FileSystem/01_Telemetry/01_clear_file_streams.bat: minor improvement
+
 2025.03.12:
 * fixed: __init__: execution fixup
 * new: scripts/FileSystem/01_Telemetry/01_clear_file_streams.bat: script to clear alternative file streams recursively
