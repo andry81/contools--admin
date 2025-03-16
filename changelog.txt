@@ -1,4 +1,7 @@
 2025.03.16:
+* change: scripts/FileSystem/01_Telemetry/01_clear_file_streams.bat: print content of streams
+
+2025.03.16:
 * changed: scripts/Wincred/README_EN.txt: readme update
 
 2025.03.16:
