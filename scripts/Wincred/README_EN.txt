@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2025.03.05
+* 2025.03.16
 * contools--admin/wincred
 
 1. DESCRIPTION
@@ -86,7 +86,7 @@ NOTE:
   https://serverfault.com/questions/920048/change-persistence-type-of-windows-credentials-from-enterprise-to-local-compu
 
 
-The `Git Credential Manager` adds the second automatically in the installation and after:
+The `Git Credential Manager`:
 https://github.com/git-ecosystem/git-credential-manager
 
 CAUTION:
