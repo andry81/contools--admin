@@ -1,3 +1,11 @@
+2025.03.26:
+* fixed: scripts/FileSystem/clear_file_streams.bat: execution fixup
+* new: scripts/FileSystem/clear_file_streams.bat: `-WD` option, `-r` and `-size` flags
+* new: scripts/FileSystem/print_file_paths.bat: script to print file paths
+* new: scripts/FileSystem: print_link_path.vbs, print_link_path.bat: script to print link target path
+* changed: scripts/FileSystem/clear_file_streams.bat: code improvements
+* refactor: scripts/FileSystem/clear_file_streams.bat: code refactor
+
 2025.03.16:
 * fixed: scripts/FileSystem/01_Telemetry/01_clear_file_streams.bat: workaround for `findstr.exe` hang if no <CRLF> after the last line (https://superuser.com/questions/853580/real-windows-equivalent-to-cat-stdin#comment1129504_853718)
 
