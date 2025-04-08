@@ -1,5 +1,9 @@
+2025.04.09:
+* fixed: scripts/VirtualBox/fix_installdir_perms.bat: execution fixup to run from current directory - `.`
+* new: scripts/VirtualBox/reset_installdir_perms.bat: script to reset INSTALLDIR permissions for VirtualBox 7.0.14 and lower
+
 2025.04.08:
-* new: scripts/VirtualBox/fix_vbox_installdir_perms.bat: script to fix INSTALLDIR permissions for VirtualBox 7+
+* new: scripts/VirtualBox/fix_vbox_installdir_perms.bat: script to fix INSTALLDIR permissions for VirtualBox 7.0.16+
 
 2025.03.26:
 * fixed: scripts/FileSystem/clear_file_streams.bat: execution fixup
