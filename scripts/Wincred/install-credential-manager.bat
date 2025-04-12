@@ -1,24 +1,7 @@
 @echo off
 
 rem USAGE:
-rem   fix_installdir_perms.bat <INSTALLDIR>
-
-rem Description:
-rem   Fixes the INSTALLDIR directory permissions for inner files and
-rem   directories. Includes directory permissions above the INSTALLDIR
-rem   directory.
-rem
-rem   Works for the VirtualBox setup executable version 7.0.16+.
-rem
-rem   Based on:
-rem     https://forums.virtualbox.org/viewtopic.php?p=552778#p552778 :
-rem     `Invalid installation directory message on default directory`
-rem
-
-rem CAUTION:
-rem   1. INSTALLDIR must be the end installation directory, otherwise the permissions would be overwritten everythere!
-rem   2. You must create the end installation directory if does not exist and run the script on it.
-rem
+rem   install-credential-manager.bat [-elevate]
 
 setlocal DISABLEDELAYEDEXPANSION
 
@@ -26,8 +9,40 @@ rem script names call stack, disabled due to self call and partial inheritance (
 rem if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-^>%~nx0" ) else set "?~=%~nx0"
 set "?~=%~nx0"
 
+set "?~dp0=%~dp0"
+set "?~n0=%~n0"
+set "?~f0=%~f0"
+
 set /A ELEVATED+=0
 
+rem script flags
+set FLAG_SHIFT=0
+set FLAG_ELEVATE=0
+
+:FLAGS_LOOP
+
+rem flags always at first
+set "FLAG=%~1"
+
+if defined FLAG ^
+if not "%FLAG:~0,1%" == "-" set "FLAG="
+
+if defined FLAG (
+  if "%FLAG%" == "-elevate" (
+    set FLAG_ELEVATE=1
+  ) else if not "%FLAG%" == "--" (
+    echo.%?~%: error: invalid flag: %FLAG%
+    exit /b -255
+  ) >&2
+
+  shift
+  set /A FLAG_SHIFT+=1
+
+  rem read until no flags
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
+)
+
+if %FLAG_ELEVATE% EQU 0 goto IMPL
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 call :IS_ADMIN_ELEVATED && goto ELEVATED
 
@@ -57,7 +72,7 @@ rem   The `cd "%CD%" ^& %CD:~0,2%` must be before the command, otherwise the sys
 rem
 
 rem Windows Batch compatible command line with escapes (`\""` is a single nested `"`, `\""""` is a double nested `"` and so on).
-set ?.=set "IMPL_MODE=1" ^& cd "%CD%" ^& %CD:~0,2% ^& "%~f0" %* ^& pause
+set ?.=set "IMPL_MODE=1" ^& cd "%CD%" ^& %CD:~0,2% ^& "%?~f0%" %* ^& pause
 
 rem translate Windows Batch compatible escapes into escape placeholders
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$=$0!") do endlocal & set "?.=%%i"
@@ -88,53 +103,22 @@ if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
   exit /b 255
 ) >&2
 
-set "INSTALLDIR=%~1"
-
-if not defined INSTALLDIR set INSTALLDIR=.
-
-for /F "tokens=* delims="eol^= %%i in ("%INSTALLDIR%\.") do set "INSTALLDIR=%%~fi"
-
-if not exist "%INSTALLDIR%" (
-  echo.%~nx0: error: installation directory does not exits: "%INSTALLDIR%".
+where "powershell.exe" || (
+  echo.%?~%: error: `powershell.exe` is not found.
   exit /b 255
 ) >&2
 
-for /F "tokens=1,* delims=\" %%i in ("%INSTALLDIR%") do set "INSTALLDIR_PREFIX=%%i" & set "INSTALLDIR_SUFFIX=%%j"
+set "PS_SCRIPT_FILE=%?~dp0%%?~n0%.ps1"
 
-if not defined INSTALLDIR_SUFFIX (
-  echo.%~nx0: error: installation directory must be not a drive root: "%INSTALLDIR%".
-  exit /b 255
-) >&2
+rem parameters escape
+set "PS_SCRIPT_FILE=%PS_SCRIPT_FILE:'=''%"
 
-:LOOP
-for /F "tokens=1,* delims=\" %%i in ("%INSTALLDIR_SUFFIX%") do set "INSTALLDIR_PREFIX=%INSTALLDIR_PREFIX%\%%i" & set "INSTALLDIR_SUFFIX=%%j"
-
-setlocal ENABLEDELAYEDEXPANSION & echo.^>!INSTALLDIR_PREFIX!& endlocal
-echo.
-
-if defined INSTALLDIR_SUFFIX (
-  rem not the end installation directory, without recursion
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /reset /c || exit /b
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /inheritance:d /c || exit /b
-) else (
-  rem the end installation directory, with recursion
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /reset /t /c || exit /b
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /inheritance:d /t /c || exit /b
-)
-
-call :CMD icacls "%INSTALLDIR_PREFIX%" /grant "*S-1-5-32-545:(OI)(CI)(RX)" || exit /b
-call :CMD icacls "%INSTALLDIR_PREFIX%" /deny "*S-1-5-32-545:(DE,WD,AD,WEA,WA)" || exit /b
-call :CMD icacls "%INSTALLDIR_PREFIX%" /grant "*S-1-5-11:(OI)(CI)(RX)" || exit /b
-call :CMD icacls "%INSTALLDIR_PREFIX%" /deny "*S-1-5-11:(DE,WD,AD,WEA,WA)" || exit /b
-
-echo.
-
-if not defined INSTALLDIR_SUFFIX exit /b 0
-
-goto LOOP
+call :CMD powershell.exe -ExecutionPolicy Bypass "& "'"%PS_SCRIPT_FILE%"'""
+exit /b
 
 :CMD
 echo.^>%*
+echo.
 (
   %*
 )

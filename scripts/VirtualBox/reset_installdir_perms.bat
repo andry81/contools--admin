@@ -86,6 +86,8 @@ if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
 
 set "INSTALLDIR=%~1"
 
+if not defined INSTALLDIR set INSTALLDIR=.
+
 for /F "tokens=* delims="eol^= %%i in ("%INSTALLDIR%\.") do set "INSTALLDIR=%%~fi"
 
 if not exist "%INSTALLDIR%" (

@@ -1,11 +1,12 @@
 * README_EN.txt
-* 2025.03.16
+* 2025.04.12
 * contools--admin/wincred
 
 1. DESCRIPTION
 2. INSTRUCTIONS
 2.1. Installation of PowerShell 5.1 for Windows 7/8.x/Server2012
-2.2. Add credentials
+2.2. Installation of PowerShell CredentialManager module
+2.3. Add credentials
 3. KNOWN ISSUES
 3.1. Error message: `remote: Invalid username or password.`
      `fatal: Authentication failed for 'https://github.com/USER/REPO/'`
@@ -33,14 +34,19 @@ Files:
 * Win7-KB3191566-x86.zip
 
 -------------------------------------------------------------------------------
-2.2. Add credentials
+2.2. Installation of PowerShell CredentialManager module
 -------------------------------------------------------------------------------
 
-1. Run cmd.exe console with Administrator privileges.
+1. >
+   install-credential-manager.bat -elevate
 
-2. >
-   newcred.bat git:https://github.com USER PASS Enterprise
-   newcred.bat git:https://USER@github.com USER PASS LocalMachine
+-------------------------------------------------------------------------------
+2.3. Add credentials
+-------------------------------------------------------------------------------
+
+1. >
+   newcred.bat -elevate -- git:https://github.com USER PASS Enterprise
+   newcred.bat -elevate -- git:https://USER@github.com USER PASS LocalMachine
 
 -------------------------------------------------------------------------------
 3. KNOWN ISSUES

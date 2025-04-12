@@ -1,3 +1,10 @@
+2025.04.12:
+* fixed: scripts/VirtualBox/*_installdir_perms.bat: empty parameter as current directory usage instead of the system drive root
+* fixed: scripts/Wincred/newcred.bat: empty parameter correct escape
+* new: scripts/Wincred/install-credential-manager.bat: windows batch script to simplify the execution of respective `*.ps1` script
+* new: scripts/Wincred/newcred.bat: `-elevate` flag to self elevate the script
+* changed: scripts/Wincred/README_EN.txt: readme update
+
 2025.04.09:
 * fixed: scripts/VirtualBox/fix_installdir_perms.bat: execution fixup to run from current directory - `.`
 * new: scripts/VirtualBox/reset_installdir_perms.bat: script to reset INSTALLDIR permissions for VirtualBox 7.0.14 and lower
