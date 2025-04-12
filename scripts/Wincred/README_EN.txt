@@ -10,6 +10,9 @@
 3. KNOWN ISSUES
 3.1. Error message: `remote: Invalid username or password.`
      `fatal: Authentication failed for 'https://github.com/USER/REPO/'`
+3.2. Warning and error message:
+     `WARNING: Unable to resolve package source 'https://www.powershellgallery.com/api/v2'.`
+     `PackageManagement\Save-Package : No match was found for the specified search criteria and module name 'CredentialManager'. ...`
 
 -------------------------------------------------------------------------------
 1. DESCRIPTION
@@ -38,7 +41,7 @@ Files:
 -------------------------------------------------------------------------------
 
 1. >
-   install-credential-manager.bat -elevate
+   deploy/install-credential-manager.bat -elevate
 
 -------------------------------------------------------------------------------
 2.3. Add credentials
@@ -107,3 +110,18 @@ NOTE:
 NOTE:
   If the GitHub PAT is expired, then `Git Credential Manager` automatically
   removes it from the `Windows Credential Manager` records list.
+
+-------------------------------------------------------------------------------
+3.2. Warning and error message:
+     `WARNING: Unable to resolve package source 'https://www.powershellgallery.com/api/v2'.`
+     `PackageManagement\Save-Package : No match was found for the specified search criteria and module name 'CredentialManager'. ...`
+-------------------------------------------------------------------------------
+Details:
+  https://github.com/PowerShell/PowerShellGallery/issues/153 :
+  `Unable to resolve package source 'https://www.powershellgallery.com/api/v2'`
+
+Reason:
+  You've tried to save a module using deprecated TLS protocol version.
+
+Solution:
+  Use `deploy/save-*-module.*` scripts to workaround it.

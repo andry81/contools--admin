@@ -1,7 +1,12 @@
 2025.04.12:
+* new: scripts/Wincred/deploy/save-credential-manager-module.*: Windows batch script and powershell script to workaround powershell `CredentialManager` module save around a TLS protocol
+* changed: scripts/Wincred/README_EN.txt: readme update
+* refactor: scripts/Wincred/deploy: *.bat, *.ps1: moved deploy scripts into `deploy` subdirectory
+
+2025.04.12:
 * fixed: scripts/VirtualBox/*_installdir_perms.bat: empty parameter as current directory usage instead of the system drive root
 * fixed: scripts/Wincred/newcred.bat: empty parameter correct escape
-* new: scripts/Wincred/install-credential-manager.bat: windows batch script to simplify the execution of respective `*.ps1` script
+* new: scripts/Wincred/install-credential-manager.bat: Windows batch script to simplify the execution of respective `*.ps1` script
 * new: scripts/Wincred/newcred.bat: `-elevate` flag to self elevate the script
 * changed: scripts/Wincred/README_EN.txt: readme update
 
