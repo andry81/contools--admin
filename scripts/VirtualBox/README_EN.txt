@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2023.03.03
+* 2025.04.13
 * contools--admin/VirtualBox
 
 1. DESCRIPTION
@@ -12,6 +12,8 @@
 4. KNOWN ISSUES
 4.1 Internet still is not reachable from the target guest
 4.2 Udp port forwarding using `socat` still is not visible
+4.3 Error dialog `Invalid installation directory` on attempt to install
+    VirtualBox 7.0.16+
 
 -------------------------------------------------------------------------------
 1. DESCRIPTION
@@ -215,7 +217,8 @@ NOTE:
 4.1 Internet still is not reachable from the target guest
 -------------------------------------------------------------------------------
 
-Try to switch off and on related VM network interfaces including OS interfaces.
+Try to switch off and on the related VM network interface including the OS
+network interface.
 
 -------------------------------------------------------------------------------
 4.2 Udp port forwarding using `socat` still is not visible
@@ -225,3 +228,14 @@ In some p2p applications not direct nor indirect udp port forwarding is not
 visible by the target application behind the tcp port forwarding.
 
 In those cases you can try to use the same port for the TCP and UDP.
+
+-------------------------------------------------------------------------------
+4.3 Error dialog `Invalid installation directory` on attempt to install
+    VirtualBox 7.0.16+
+-------------------------------------------------------------------------------
+
+Details:
+  https://www.virtualbox.org/ticket/22044 :
+  `Can't install Virtualbox 7.0.16 outside of C:\Program Files`
+
+To workaround use `fix_installdir_perms.bat` script.

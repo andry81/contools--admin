@@ -13,6 +13,8 @@ rem
 rem   Based on:
 rem     https://forums.virtualbox.org/viewtopic.php?p=552778#p552778 :
 rem     `Invalid installation directory message on default directory`
+rem     https://www.virtualbox.org/ticket/22044 :
+rem     `Can't install Virtualbox 7.0.16 outside of C:\Program Files`
 rem
 
 rem CAUTION:

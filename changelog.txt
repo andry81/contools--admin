@@ -1,3 +1,7 @@
+2025.04.13:
+* changed: scripts/VirtualBox/README_EN.txt: readme update
+* refactor: scripts/VirtualBox/fix_installdir_perms.bat: VirtualBox ticket reference link
+
 2025.04.12:
 * new: scripts/Wincred/deploy/save-credential-manager-module.*: Windows batch script and powershell script to workaround powershell `CredentialManager` module save around a TLS protocol
 * changed: scripts/Wincred/README_EN.txt: readme update
