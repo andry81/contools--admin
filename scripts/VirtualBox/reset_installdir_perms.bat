@@ -1,7 +1,7 @@
 @echo off
 
 rem USAGE:
-rem   reset_installdir_perms.bat <INSTALLDIR>
+rem   reset_installdir_perms.bat [<flags>] [--] <INSTALLDIR>
 
 rem Description:
 rem   Resets the INSTALLDIR directory permissions for inner files and
@@ -10,6 +10,13 @@ rem   directory.
 rem
 rem   Works for the VirtualBox setup executable version 7.0.14 and lower.
 rem
+
+rem <flags>:
+rem   -r
+rem     Reset INSTALLDIR with recursion.
+rem     By default has no recursion, because INSTALLDIR may not exist after
+rem     uninstall AND the parent directory permissions may not let you create
+rem     it. So you can call the script at least on the parent directory.
 
 rem CAUTION:
 rem   1. INSTALLDIR must be the end installation directory, otherwise the permissions would be overwritten everythere!
@@ -22,7 +29,36 @@ rem script names call stack, disabled due to self call and partial inheritance (
 rem if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-^>%~nx0" ) else set "?~=%~nx0"
 set "?~=%~nx0"
 
+set "?~f0=%~f0"
+
 set /A ELEVATED+=0
+
+rem script flags
+set FLAG_SHIFT=0
+set FLAG_RECUR=0
+
+:FLAGS_LOOP
+
+rem flags always at first
+set "FLAG=%~1"
+
+if defined FLAG ^
+if not "%FLAG:~0,1%" == "-" set "FLAG="
+
+if defined FLAG (
+  if "%FLAG%" == "-r" (
+    set FLAG_RECUR=1
+  ) else if not "%FLAG%" == "--" (
+    echo.%?~%: error: invalid flag: %FLAG%
+    exit /b -255
+  ) >&2
+
+  shift
+  set /A FLAG_SHIFT+=1
+
+  rem read until no flags
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
+)
 
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 call :IS_ADMIN_ELEVATED && goto ELEVATED
@@ -53,7 +89,7 @@ rem   The `cd "%CD%" ^& %CD:~0,2%` must be before the command, otherwise the sys
 rem
 
 rem Windows Batch compatible command line with escapes (`\""` is a single nested `"`, `\""""` is a double nested `"` and so on).
-set ?.=set "IMPL_MODE=1" ^& cd "%CD%" ^& %CD:~0,2% ^& "%~f0" %* ^& pause
+set ?.=set "IMPL_MODE=1" ^& cd "%CD%" ^& %CD:~0,2% ^& "%?~f0%" %* ^& pause
 
 rem translate Windows Batch compatible escapes into escape placeholders
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$=$0!") do endlocal & set "?.=%%i"
@@ -111,9 +147,12 @@ echo.
 if defined INSTALLDIR_SUFFIX (
   rem not the end installation directory, without recursion
   call :CMD icacls "%INSTALLDIR_PREFIX%" /reset /c || exit /b
-) else (
+) else if %FLAG_RECUR% NEQ 0 (
   rem the end installation directory, with recursion
   call :CMD icacls "%INSTALLDIR_PREFIX%" /reset /t /c || exit /b
+) else (
+  rem not the end installation directory, without recursion
+  call :CMD icacls "%INSTALLDIR_PREFIX%" /reset /c || exit /b
 )
 
 echo.

@@ -1,4 +1,9 @@
 2025.04.13:
+* new: scripts/VirtualBox/fix_installdir_perms.bat: added `-skip-parent-dirs` flag to skip parent directories
+* new: scripts/VirtualBox/reset_installdir_perms.bat: added `-r` flag for INSTALLDIR recursion
+* changed: scripts/VirtualBox/reset_installdir_perms.bat: disable INSTALLDIR recursion by default
+
+2025.04.13:
 * changed: scripts/VirtualBox/README_EN.txt: readme update
 * refactor: scripts/VirtualBox/fix_installdir_perms.bat: VirtualBox ticket reference link
 

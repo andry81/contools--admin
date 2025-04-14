@@ -1,7 +1,7 @@
 @echo off
 
 rem USAGE:
-rem   fix_installdir_perms.bat <INSTALLDIR>
+rem   fix_installdir_perms.bat [-skip-parent-dirs] [--] <INSTALLDIR>
 
 rem Description:
 rem   Fixes the INSTALLDIR directory permissions for inner files and
@@ -28,7 +28,36 @@ rem script names call stack, disabled due to self call and partial inheritance (
 rem if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-^>%~nx0" ) else set "?~=%~nx0"
 set "?~=%~nx0"
 
+set "?~f0=%~f0"
+
 set /A ELEVATED+=0
+
+rem script flags
+set FLAG_SHIFT=0
+set FLAG_SKIP_PARENT_DIRS=0
+
+:FLAGS_LOOP
+
+rem flags always at first
+set "FLAG=%~1"
+
+if defined FLAG ^
+if not "%FLAG:~0,1%" == "-" set "FLAG="
+
+if defined FLAG (
+  if "%FLAG%" == "-skip-parent-dirs" (
+    set FLAG_SKIP_PARENT_DIRS=1
+  ) else if not "%FLAG%" == "--" (
+    echo.%?~%: error: invalid flag: %FLAG%
+    exit /b -255
+  ) >&2
+
+  shift
+  set /A FLAG_SHIFT+=1
+
+  rem read until no flags
+  if not "%FLAG%" == "--" goto FLAGS_LOOP
+)
 
 if %IMPL_MODE%0 NEQ 0 goto IMPL
 call :IS_ADMIN_ELEVATED && goto ELEVATED
@@ -59,7 +88,7 @@ rem   The `cd "%CD%" ^& %CD:~0,2%` must be before the command, otherwise the sys
 rem
 
 rem Windows Batch compatible command line with escapes (`\""` is a single nested `"`, `\""""` is a double nested `"` and so on).
-set ?.=set "IMPL_MODE=1" ^& cd "%CD%" ^& %CD:~0,2% ^& "%~f0" %* ^& pause
+set ?.=set "IMPL_MODE=1" ^& cd "%CD%" ^& %CD:~0,2% ^& "%?~f0%" %* ^& pause
 
 rem translate Windows Batch compatible escapes into escape placeholders
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$=$0!") do endlocal & set "?.=%%i"
@@ -109,7 +138,12 @@ if not defined INSTALLDIR_SUFFIX (
 ) >&2
 
 :LOOP
-for /F "tokens=1,* delims=\" %%i in ("%INSTALLDIR_SUFFIX%") do set "INSTALLDIR_PREFIX=%INSTALLDIR_PREFIX%\%%i" & set "INSTALLDIR_SUFFIX=%%j"
+if %FLAG_SKIP_PARENT_DIRS% EQU 0 (
+  for /F "tokens=1,* delims=\" %%i in ("%INSTALLDIR_SUFFIX%") do set "INSTALLDIR_PREFIX=%INSTALLDIR_PREFIX%\%%i" & set "INSTALLDIR_SUFFIX=%%j"
+) else (
+  set "INSTALLDIR_PREFIX=%INSTALLDIR%"
+  set "INSTALLDIR_SUFFIX="
+)
 
 setlocal ENABLEDELAYEDEXPANSION & echo.^>!INSTALLDIR_PREFIX!& endlocal
 echo.
