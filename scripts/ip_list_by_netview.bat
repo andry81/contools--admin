@@ -7,8 +7,8 @@ set LAST_CODE_PAGE=%LAST_CODE_PAGE: =%
 
 chcp 65001 >nul
 
-echo.BiosName ^<= Address ^(DnsName^)
-echo.========================================
+echo;BiosName ^<= Address ^(DnsName^)
+echo;========================================
 for /f "usebackq tokens=1,2,* delims= " %%i in (`net view /all`) do (
     set "host=%%~i"
     if "!host:~0,2!" == "\\" (
@@ -20,19 +20,19 @@ for /f "usebackq tokens=1,2,* delims= " %%i in (`net view /all`) do (
               set "server=%%y"
             )
             if /i "%%x" == "Address:" (
-                echo.!host! ^<= %%y ^(!server!^)
+                echo;!host! ^<= %%y ^(!server!^)
                 rem resolve NETBIOS name into ip through the ping
                 for /f "usebackq tokens=* delims=" %%i in (`ping -w 200 -n 1 "!host:~2!" 2^>nul`) do (
                     set line=%%i
                     if defined line (
-                        if /i not "!line:pinging=!" == "!line!" echo.  !line!
-                        if /i not "!line:reply=!" == "!line!" echo.  !line!
+                        if /i not "!line:pinging=!" == "!line!" echo;  !line!
+                        if /i not "!line:reply=!" == "!line!" echo;  !line!
                     )
                 )
-                echo.
+                echo;
             )
         )
-        echo.----------------------------------------
+        echo;----------------------------------------
     )
 )
 

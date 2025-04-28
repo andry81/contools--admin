@@ -48,7 +48,7 @@ if defined FLAG (
   if "%FLAG%" == "-skip-parent-dirs" (
     set FLAG_SKIP_PARENT_DIRS=1
   ) else if not "%FLAG%" == "--" (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -115,7 +115,7 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
@@ -126,14 +126,14 @@ if not defined INSTALLDIR set INSTALLDIR=.
 for /F "tokens=* delims="eol^= %%i in ("%INSTALLDIR%\.") do set "INSTALLDIR=%%~fi"
 
 if not exist "%INSTALLDIR%" (
-  echo.%~nx0: error: installation directory does not exits: "%INSTALLDIR%".
+  echo;%~nx0: error: installation directory does not exits: "%INSTALLDIR%".
   exit /b 255
 ) >&2
 
 for /F "tokens=1,* delims=\" %%i in ("%INSTALLDIR%") do set "INSTALLDIR_PREFIX=%%i" & set "INSTALLDIR_SUFFIX=%%j"
 
 if not defined INSTALLDIR_SUFFIX (
-  echo.%~nx0: error: installation directory must be not a drive root: "%INSTALLDIR%".
+  echo;%~nx0: error: installation directory must be not a drive root: "%INSTALLDIR%".
   exit /b 255
 ) >&2
 
@@ -145,8 +145,8 @@ if %FLAG_SKIP_PARENT_DIRS% EQU 0 (
   set "INSTALLDIR_SUFFIX="
 )
 
-setlocal ENABLEDELAYEDEXPANSION & echo.^>!INSTALLDIR_PREFIX!& endlocal
-echo.
+setlocal ENABLEDELAYEDEXPANSION & echo;^>!INSTALLDIR_PREFIX!& endlocal
+echo;
 
 if defined INSTALLDIR_SUFFIX (
   rem not the end installation directory, without recursion
@@ -163,14 +163,14 @@ call :CMD icacls "%INSTALLDIR_PREFIX%" /deny "*S-1-5-32-545:(DE,WD,AD,WEA,WA)" |
 call :CMD icacls "%INSTALLDIR_PREFIX%" /grant "*S-1-5-11:(OI)(CI)(RX)" || exit /b
 call :CMD icacls "%INSTALLDIR_PREFIX%" /deny "*S-1-5-11:(DE,WD,AD,WEA,WA)" || exit /b
 
-echo.
+echo;
 
 if not defined INSTALLDIR_SUFFIX exit /b 0
 
 goto LOOP
 
 :CMD
-echo.^>%*
+echo;^>%*
 (
   %*
 )

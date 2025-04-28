@@ -39,7 +39,7 @@ if not exist "%SRC_DIR%\%LINESTR%" (
 
 :PARSE_LINE_PRINT
 set "LINESTR=%LINESTR:)=^)%"
-echo.%LINESTR%
+echo;%LINESTR%
 
 :PARSE_LINE_EXIT
 set /A LINE_INDEX+=1

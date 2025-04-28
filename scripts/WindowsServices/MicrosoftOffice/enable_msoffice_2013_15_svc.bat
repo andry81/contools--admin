@@ -60,18 +60,18 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
 rem Office Software Protection Platform
-echo.^>sc config osppsvc start= demand
+echo;^>sc config osppsvc start= demand
 sc config osppsvc start= demand
 
 rem Microsoft Office ClickToRun
-echo.^>sc config ClickToRunSvc start= demand
+echo;^>sc config ClickToRunSvc start= demand
 sc config ClickToRunSvc start= demand
 
 rem Microsoft Office Service
-echo.^>sc config OfficeSvc start= demand
+echo;^>sc config OfficeSvc start= demand
 sc config OfficeSvc start= demand

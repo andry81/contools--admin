@@ -89,7 +89,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-links" (
     set FLAG_ALLOW_LINKS=1
   ) else if not "%FLAG%" == "--" (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -113,7 +113,7 @@ if not "%FROM_PATH:~0,1%" == "\" if not "%FROM_PATH:~1,1%" == ":" set "FROM_PATH
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FROM_PATH!\.") do endlocal & set "FROM_DIR=%%~fi"
 
 if not exist "\\?\%FROM_DIR%\*" (
-  echo.%?~%: error: directory path does not exist: "%FROM_DIR%".
+  echo;%?~%: error: directory path does not exist: "%FROM_DIR%".
   exit /b 1
 ) >&2
 
@@ -158,8 +158,8 @@ if %FLAG_LENGTH% NEQ 0 for /F "tokens=* delims="eol^= %%i in ("!FILE_PATH_TMP!")
 )
 
 if !FLAG_LONG! NEQ 0 (
-  if not exist "!FILE_PATH!" for /F "tokens=* delims="eol^= %%i in ("!LEN_PREFIX!>!FILE_PATH!") do endlocal & echo.%%i
-) else for /F "tokens=* delims="eol^= %%i in ("!LEN_PREFIX!>!FILE_PATH!") do endlocal & echo.%%i
+  if not exist "!FILE_PATH!" for /F "tokens=* delims="eol^= %%i in ("!LEN_PREFIX!>!FILE_PATH!") do endlocal & echo;%%i
+) else for /F "tokens=* delims="eol^= %%i in ("!LEN_PREFIX!>!FILE_PATH!") do endlocal & echo;%%i
 
 if %FLAG_RECUR% NEQ 0 if /i not "%FILE_ATTR:d=%" == "%FILE_ATTR%" (
   setlocal

@@ -8,7 +8,7 @@ call :CMD cscript //nologo "C:\Windows\System32\slmgr.vbs" /ato
 exit /b 0
 
 :CMD
-echo.^>%*
+echo;^>%*
 (
   %*
 )

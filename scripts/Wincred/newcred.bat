@@ -33,7 +33,7 @@ if defined FLAG (
   if "%FLAG%" == "-elevate" (
     set FLAG_ELEVATE=1
   ) else if not "%FLAG%" == "--" (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -101,12 +101,12 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
 where "powershell.exe" || (
-  echo.%?~%: error: `powershell.exe` is not found.
+  echo;%?~%: error: `powershell.exe` is not found.
   exit /b 255
 ) >&2
 
@@ -126,8 +126,8 @@ call :CMD powershell.exe -NoLogo -Command "& {New-StoredCredential -Target "'"%%
 exit /b
 
 :CMD
-echo.^>%*
-echo.
+echo;^>%*
+echo;
 (
   %*
 )

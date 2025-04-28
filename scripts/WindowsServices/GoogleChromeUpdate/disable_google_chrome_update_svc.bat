@@ -60,18 +60,18 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
-echo.^>sc stop gupdate
+echo;^>sc stop gupdate
 sc stop gupdate
 
-echo.^>sc config gupdate start= disabled
+echo;^>sc config gupdate start= disabled
 sc config gupdate start= disabled
 
-echo.^>sc stop gupdatem
+echo;^>sc stop gupdatem
 sc stop gupdatem
 
-echo.^>sc config gupdatem start= disabled
+echo;^>sc config gupdatem start= disabled
 sc config gupdatem start= disabled

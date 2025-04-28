@@ -18,7 +18,7 @@ exit /b
 
 :IMPL
 call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
-  echo.%?~%: error: process must be Administrator account elevated to continue.
+  echo;%?~%: error: process must be Administrator account elevated to continue.
   exit /b 255
 ) >&2
 
@@ -33,7 +33,7 @@ if exist "%SystemRoot%\Sysnative\*" (
 )
 
 (
-  echo.%?~%: error: run script in 64-bit console ONLY (in administrative mode)!
+  echo;%?~%: error: run script in 64-bit console ONLY (in administrative mode)!
   exit /b 255
 ) >&2
 
@@ -47,24 +47,24 @@ call :CMD sc stop DiagTrack
 call :CMD sc config DiagTrack start= disabled
 call :CMD sc stop dmwappushservice
 call :CMD sc config dmwappushservice start= disabled
-echo.
+echo;
 
 echo Stopping and disabling NvTelemetryContainer.exe services..
 call :CMD sc stop NvTelemetryContainer
 call :CMD sc config NvTelemetryContainer start= disabled
-echo.
+echo;
 
 echo Updating CompatTelRunner.exe files..
 if not exist "%COMPATTELRUNNER_LOG_DIR%\AutoLogger-Diagtrack-Listener.bak" (
   copy /Y /B "%COMPATTELRUNNER_LOG_DIR%\AutoLogger-Diagtrack-Listener.etl" "%COMPATTELRUNNER_LOG_DIR%\AutoLogger-Diagtrack-Listener.bak"
 )
-echo.> "%COMPATTELRUNNER_LOG_DIR%\AutoLogger-Diagtrack-Listener.etl"
-echo.
+echo;> "%COMPATTELRUNNER_LOG_DIR%\AutoLogger-Diagtrack-Listener.etl"
+echo;
 
 echo Updating CompatTelRunner.exe registry..
 call :CMD reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f
 call :CMD reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\CompatTelRunner.exe" /v Debugger /t REG_SZ /d "systray.exe" /f
-echo.
+echo;
 
 rem CAUTION:
 rem   1. If a variable is empty, then it would not be expanded in the `cmd.exe`
@@ -81,35 +81,35 @@ set ?.=@dir "%SystemRoot%\CompatTelRunner.exe" /A:-D /B /O:N /S 2^>nul
 
 echo Updating CompatTelRunner.exe permissions...
 for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do set "FILE=%%i" & call :UPDATE_PERMISSIONS
-echo.
+echo;
 
 exit /b
 
 :UPDATE_PERMISSIONS
-echo.^>%FILE%
+echo;^>%FILE%
 if exist "%~dp0retakeowner.exe" goto RETAKEOWNER_WORKAROUND
 
 rem CAUTION: Obsolete implementation, `takeown` and `icacls` does not work anymore on TrustedInstaller protected files!
-echo.%?~%: warning: system takeown utility may fail to take ownership on TrustedInstaller protected files beginning from Windows 7. Copy `retakeowner.exe` utility into directory with the script to bypass this issue.
+echo;%?~%: warning: system takeown utility may fail to take ownership on TrustedInstaller protected files beginning from Windows 7. Copy `retakeowner.exe` utility into directory with the script to bypass this issue.
 call :CMD takeown /S localhost /U "%%USERNAME%%" /F "%%FILE%%"
 
 goto RETAKEOWNER_WORKAROUND_END
 
 :RETAKEOWNER_WORKAROUND
 call :CMD "%%~dp0retakeowner.exe" "%%FILE%%" "%%USERNAME%%"
-echo.%?~%: retakeowner last error code: %ERRORLEVEL%
+echo;%?~%: retakeowner last error code: %ERRORLEVEL%
 
 :RETAKEOWNER_WORKAROUND_END
 
 call :CMD icacls "%%FILE%%" /remove:g "NT SERVICE\TrustedInstaller"
 call :CMD icacls "%%FILE%%" /deny *S-1-1-0:(WO,GE)
 
-echo.
+echo;
 
 exit /b
 
 :CMD
-echo.^>%*
+echo;^>%*
 (
   %*
 )

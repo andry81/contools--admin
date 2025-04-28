@@ -7,8 +7,8 @@ set LAST_CODE_PAGE=%LAST_CODE_PAGE: =%
 
 chcp 65001 >nul
 
-echo.ArpIp ^<= NsLookupIp ^<= MAC ^(DnsName^)
-echo.========================================
+echo;ArpIp ^<= NsLookupIp ^<= MAC ^(DnsName^)
+echo;========================================
 for /f "usebackq tokens=1,2,* delims= " %%i in (`arp -a`) do (
     set "host=%%~i"
     set "mac=%%~j"
@@ -21,19 +21,19 @@ for /f "usebackq tokens=1,2,* delims= " %%i in (`arp -a`) do (
               set "server=%%y"
             )
             if /i "%%x" == "Address:" (
-                echo.!host! ^<= %%y ^<= !mac! ^(!server!^)
+                echo;!host! ^<= %%y ^<= !mac! ^(!server!^)
                 rem resolve NETBIOS name into ip through the ping
                 for /f "usebackq tokens=* delims=" %%i in (`ping -w 200 -n 1 "!host!" 2^>nul`) do (
                     set line=%%i
                     if defined line (
-                        if /i not "!line:pinging=!" == "!line!" echo.  !line!
-                        if /i not "!line:reply=!" == "!line!" echo.  !line!
+                        if /i not "!line:pinging=!" == "!line!" echo;  !line!
+                        if /i not "!line:reply=!" == "!line!" echo;  !line!
                     )
                 )
-                echo.
+                echo;
             )
         )
-        echo.----------------------------------------
+        echo;----------------------------------------
     )
 )
 

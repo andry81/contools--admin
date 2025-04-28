@@ -60,13 +60,13 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
 rem COM Server for VirtualBox API
-echo.^>sc stop VBoxSDS
+echo;^>sc stop VBoxSDS
 sc stop VBoxSDS
 
-echo.^>sc config VBoxSDS start= disabled
+echo;^>sc config VBoxSDS start= disabled
 sc config VBoxSDS start= disabled

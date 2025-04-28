@@ -60,13 +60,13 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
 rem Epson Scanner Service
-echo.^>sc stop EpsonScanSvc
+echo;^>sc stop EpsonScanSvc
 sc stop EpsonScanSvc
 
-echo.^>sc config EpsonScanSvc start= disabled
+echo;^>sc config EpsonScanSvc start= disabled
 sc config EpsonScanSvc start= disabled

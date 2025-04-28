@@ -9,13 +9,13 @@ set "DOMAIN=%~1"
 set "PORT=%~2"
 
 if not defined DOMAIN (
-  echo.%?~%: error: DOMAIN is not defined.
+  echo;%?~%: error: DOMAIN is not defined.
   exit /b 127
 ) >&2
 
 if not defined PORT (
-  echo.%?~%: error: PORT is not defined.
+  echo;%?~%: error: PORT is not defined.
   exit /b 128
 ) >&2
 
-echo.$connection = (New-Object Net.Sockets.TcpClient).Connect("%DOMAIN%", %PORT%); If ($connection.Connected) { $connection.Close(); } | powershell -Command -
+echo;$connection = (New-Object Net.Sockets.TcpClient).Connect("%DOMAIN%", %PORT%); If ($connection.Connected) { $connection.Close(); } | powershell -Command -

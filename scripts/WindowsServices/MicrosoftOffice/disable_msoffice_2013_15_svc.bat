@@ -60,27 +60,27 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
 rem Microsoft Office Service
-echo.^>sc stop OfficeSvc
+echo;^>sc stop OfficeSvc
 sc stop OfficeSvc
 
-echo.^>sc config OfficeSvc start= disabled
+echo;^>sc config OfficeSvc start= disabled
 sc config OfficeSvc start= disabled
 
 rem Microsoft Office ClickToRun
-echo.^>sc stop ClickToRunSvc
+echo;^>sc stop ClickToRunSvc
 sc stop ClickToRunSvc
 
-echo.^>sc config ClickToRunSvc start= disabled
+echo;^>sc config ClickToRunSvc start= disabled
 sc config ClickToRunSvc start= disabled
 
 rem Office Software Protection Platform
-echo.^>sc stop osppsvc
+echo;^>sc stop osppsvc
 sc stop osppsvc
 
-echo.^>sc config osppsvc start= disabled
+echo;^>sc config osppsvc start= disabled
 sc config osppsvc start= disabled

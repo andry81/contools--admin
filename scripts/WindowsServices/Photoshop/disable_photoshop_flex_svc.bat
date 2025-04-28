@@ -60,20 +60,20 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
 rem Photoshop x86
-echo.^>sc stop "FLEXnet Licensing Service"
+echo;^>sc stop "FLEXnet Licensing Service"
 sc stop "FLEXnet Licensing Service"
 
-echo.^>sc config "FLEXnet Licensing Service" start= disabled
+echo;^>sc config "FLEXnet Licensing Service" start= disabled
 sc config "FLEXnet Licensing Service" start= disabled
 
 rem Photoshop x64
-echo.^>sc stop "FLEXnet Licensing Service 64"
+echo;^>sc stop "FLEXnet Licensing Service 64"
 sc stop "FLEXnet Licensing Service 64"
 
-echo.^>sc config "FLEXnet Licensing Service 64" start= disabled
+echo;^>sc config "FLEXnet Licensing Service 64" start= disabled
 sc config "FLEXnet Licensing Service 64" start= disabled

@@ -60,14 +60,14 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
 rem Photoshop x64
-echo.^>sc config "FLEXnet Licensing Service 64" start= demand
+echo;^>sc config "FLEXnet Licensing Service 64" start= demand
 sc config "FLEXnet Licensing Service 64" start= demand
 
 rem Photoshop x86
-echo.^>sc config "FLEXnet Licensing Service" start= demand
+echo;^>sc config "FLEXnet Licensing Service" start= demand
 sc config "FLEXnet Licensing Service" start= demand

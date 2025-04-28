@@ -1,3 +1,6 @@
+2025.04.28:
+* changed: global code improvement: `echo.` -> `echo;`, based on "Different `echo?...` variants" : https://github.com/andry81/contools/discussions/22
+
 2025.04.13:
 * new: scripts/VirtualBox/fix_installdir_perms.bat: added `-skip-parent-dirs` flag to skip parent directories
 * new: scripts/VirtualBox/reset_installdir_perms.bat: added `-r` flag for INSTALLDIR recursion

@@ -21,7 +21,7 @@ exit /b
 
 :IMPL
 call "%%CONTOOLS_ROOT%%/std/is_system_elevated.bat" || (
-  echo.%?~%: error: process must be System account elevated to continue.
+  echo;%?~%: error: process must be System account elevated to continue.
   exit /b 255
 ) >&2
 
@@ -32,14 +32,14 @@ call :CMD schtasks /Change /tn "\Microsoft\Windows\TaskScheduler\Regular Mainten
 
 call :CMD "%%SystemRoot%%\System32\reg.exe" add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Maintenance" /v MaintenanceDisabled /t REG_DWORD /d 1 /f
 
-echo.
+echo;
 
 pause
 
 exit /b
 
 :CMD
-echo.^>%*
+echo;^>%*
 (
   %*
 )

@@ -74,7 +74,7 @@ if defined FLAG (
   ) else if "%FLAG%" == "-size" (
     set FLAG_SIZE=1
   ) else if not "%FLAG%" == "--" (
-    echo.%?~%: error: invalid flag: %FLAG%
+    echo;%?~%: error: invalid flag: %FLAG%
     exit /b -255
   ) >&2
 
@@ -91,7 +91,7 @@ set /A FLAG_SHIFT+=1
 call "%%CONTOOLS_ROOT%%/std/setshift.bat" %%FLAG_SHIFT%% __STRING__ %%*
 
 if not defined __STRING__ (
-  echo.%?~%: error: streams are not defined.
+  echo;%?~%: error: streams are not defined.
   exit /b 255
 ) >&2
 
@@ -106,7 +106,7 @@ if not "%FROM_PATH:~0,1%" == "\" if not "%FROM_PATH:~1,1%" == ":" set "FROM_PATH
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FROM_PATH!\.") do endlocal & set "FROM_DIR=%%~fi"
 
 if not exist "\\?\%FROM_DIR%\*" (
-  echo.%?~%: error: directory path does not exist: "%FROM_DIR%".
+  echo;%?~%: error: directory path does not exist: "%FROM_DIR%".
   exit /b 1
 ) >&2
 
@@ -152,10 +152,10 @@ for %%j in (%__STRING__%) do for /F "tokens=* delims="eol^= %%k in ("\\?\%%i:%%~
   if defined STREAM_SIZE (
     setlocal ENABLEDELAYEDEXPANSION
     if %FLAG_SIZE% NEQ 0 set "PRINT_LINE=!STREAM_SIZE!	!PRINT_LINE!"
-    for /F "tokens=* delims="eol^= %%l in ("!PRINT_LINE!") do endlocal & echo.%%l
+    for /F "tokens=* delims="eol^= %%l in ("!PRINT_LINE!") do endlocal & echo;%%l
     setlocal ENABLEDELAYEDEXPANSION
     if !STREAM_SIZE! NEQ 0 (
-      endlocal & "%SystemRoot%\System32\find.exe" /V "" < "%%k" & echo.
+      endlocal & "%SystemRoot%\System32\find.exe" /V "" < "%%k" & echo;
     ) else endlocal
     type nul > "%%k"
   )

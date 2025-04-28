@@ -16,19 +16,19 @@ if not defined VBOX_MANAGE_EXE for /f "usebackq tokens=1,2,* delims=	 " %%i in (
 if not defined VBOX_MANAGE_EXE set "VBOX_MANAGE_EXE=c:\Program Files\VirtualBox\VBoxManage.exe"
 
 if not defined VDI_DIR (
-  echo.%?~%: error: VDI_DIR is not defined.
+  echo;%?~%: error: VDI_DIR is not defined.
   exit /b 255
 ) >&2
 
 for /F "tokens=* delims="eol^= %%i in ("%VDI_DIR%\.") do set "VDI_DIR=%%~fi"
 
 if not exist "%VDI_DIR%\*" (
-  echo.%?~%: error: VDI_DIR does not exist: VDI_DIR="%VDI_DIR%"
+  echo;%?~%: error: VDI_DIR does not exist: VDI_DIR="%VDI_DIR%"
   exit /b 255
 ) >&2
 
 if not exist "%VBOX_MANAGE_EXE%" (
-  echo.%?~%: error: VBOX_MANAGE_EXE not exist: VBOX_MANAGE_EXE="%VBOX_MANAGE_EXE%"
+  echo;%?~%: error: VBOX_MANAGE_EXE not exist: VBOX_MANAGE_EXE="%VBOX_MANAGE_EXE%"
   exit /b 255
 ) >&2
 
@@ -51,11 +51,11 @@ exit /b
 
 :COMPACT_VDI_FILE
 call :CMD "%%VBOX_MANAGE_EXE%%" modifymedium --compact "%%VDI_FILE%%"
-echo.
+echo;
 exit /b
 
 :CMD
-echo.^>%*
+echo;^>%*
 (
   %*
 )

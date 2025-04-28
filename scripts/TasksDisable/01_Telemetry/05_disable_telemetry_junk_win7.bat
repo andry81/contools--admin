@@ -21,7 +21,7 @@ exit /b
 
 :IMPL
 call "%%CONTOOLS_ROOT%%/std/is_admin_elevated.bat" || (
-  echo.%?~%: error: process must be Administrator account elevated to continue.
+  echo;%?~%: error: process must be Administrator account elevated to continue.
   exit /b 255
 ) >&2
 
@@ -36,7 +36,7 @@ if exist "%SystemRoot%\Sysnative\*" (
 )
 
 (
-  echo.%?~%: error: run script in 64-bit console ONLY (in administrative mode)!
+  echo;%?~%: error: run script in 64-bit console ONLY (in administrative mode)!
   exit /b 255
 ) >&2
 

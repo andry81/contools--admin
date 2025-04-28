@@ -13,7 +13,7 @@ set "?~=%~nx0"
 
 rem scripts must run in administrator mode
 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: run script in administrator mode!
+  echo;%?~%: error: run script in administrator mode!
   exit /b -255
 ) >&2
 

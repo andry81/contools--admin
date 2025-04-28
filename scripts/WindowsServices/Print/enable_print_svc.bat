@@ -60,10 +60,10 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
 rem Print Spooler Service
-echo.^>sc config Spooler start= demand
+echo;^>sc config Spooler start= demand
 sc config Spooler start= demand

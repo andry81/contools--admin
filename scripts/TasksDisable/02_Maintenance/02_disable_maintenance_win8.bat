@@ -19,7 +19,7 @@ exit /b
 
 :IMPL
 call "%%CONTOOLS_ROOT%%/std/is_system_elevated.bat" || (
-  echo.%?~%: error: process must be System account elevated to continue.
+  echo;%?~%: error: process must be System account elevated to continue.
   exit /b 255
 ) >&2
 
@@ -47,14 +47,14 @@ call :CMD schtasks /Change /tn "\Microsoft\Windows\Work Folders\Work Folders Mai
 
 call :CMD schtasks /Change /tn "\Microsoft\Windows\WS\WSTask" /Disable
 
-echo.
+echo;
 
 pause
 
 exit /b
 
 :CMD
-echo.^>%*
+echo;^>%*
 (
   %*
 )

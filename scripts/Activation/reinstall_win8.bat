@@ -28,7 +28,7 @@ set "?~=%~nx0"
 
 rem scripts must run in administrator mode
 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: run script in administrator mode!
+  echo;%?~%: error: run script in administrator mode!
   exit /b -255
 ) >&2
 
@@ -49,8 +49,8 @@ if exist "%SystemRoot%\System32\config\system" exit /b 0
 exit /b 255
 
 :MAIN
-echo.Windows 8/8.1 key will be reinstalled.
-echo.
+echo;Windows 8/8.1 key will be reinstalled.
+echo;
 
 timeout /T 10
 
@@ -85,7 +85,7 @@ if %ERRORLEVEL% EQU 0 (
 exit /b 0
 
 :CMD
-echo.^>%*
+echo;^>%*
 (
   %*
 )

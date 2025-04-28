@@ -13,7 +13,7 @@ set "?~dp0=%~dp0"
 set "?~n0=%~n0"
 
 where "powershell.exe" || (
-  echo.%?~%: error: `powershell.exe` is not found.
+  echo;%?~%: error: `powershell.exe` is not found.
   exit /b 255
 ) >&2
 
@@ -26,8 +26,8 @@ call :CMD powershell.exe "& "'"%PS_SCRIPT_FILE%"'""
 exit /b
 
 :CMD
-echo.^>%*
-echo.
+echo;^>%*
+echo;
 (
   %*
 )

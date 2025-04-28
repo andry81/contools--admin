@@ -60,13 +60,13 @@ set ELEVATED=1
 
 :IMPL
 if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
-  echo.%?~%: error: process must be elevated before continue.
+  echo;%?~%: error: process must be elevated before continue.
   exit /b 255
 ) >&2
 
 rem VMware Authorization Service
-echo.^>sc stop VMAuthdService
+echo;^>sc stop VMAuthdService
 sc stop VMAuthdService
 
-echo.^>sc config VMAuthdService start= disabled
+echo;^>sc config VMAuthdService start= disabled
 sc config VMAuthdService start= disabled
