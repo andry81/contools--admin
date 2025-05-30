@@ -31,7 +31,7 @@ if not defined PROCESSOR_ARCHITEW6432 goto X32
 
 rem restart in x64
 if exist "%SystemRoot%\Sysnative\*" (
-  call :CMD "%%SystemRoot%%\Sysnative\cmd.exe" /c %%0 %%*
+  call :CMD "%%SystemRoot%%\Sysnative\cmd.exe" /c @%%0 %%*
   exit /b
 )
 
