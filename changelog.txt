@@ -1,3 +1,7 @@
+2025.06.06:
+* fixed: scripts/*.bat: Windows XP Administrator privileges elevation code fixup
+* new: WMI/rebuild_wbem.bat: WMI repository rebuild script
+
 2025.05.30:
 * fixed: scripts/TasksDisable/01_Telemetry/*.bat: minor fix
 

@@ -1,5 +1,11 @@
 @echo off
 
+rem Based on:
+rem   * `Is there any Script for Rebuilding WMI` :
+rem     https://learn.microsoft.com/en-us/answers/questions/1791997/is-there-any-script-for-rebuilding-wmi
+rem   * `WMI: Rebuilding the WMI Repository` :
+rem     https://techcommunity.microsoft.com/blog/askperf/wmi-rebuilding-the-wmi-repository/373846
+
 setlocal DISABLEDELAYEDEXPANSION
 
 rem script names call stack, disabled due to self call and partial inheritance (process elevation does not inherit a parent process variables by default)
@@ -70,6 +76,70 @@ if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
   exit /b 255
 ) >&2
 
-rem VMware Authorization Service
-echo;^>sc config VMAuthdService start= demand
-sc config VMAuthdService start= demand
+rem ===========================================================================
+
+call :CMD sc config winmgmt start= disabled
+call :CMD net stop winmgmt /y
+
+call :CMD %%SystemDrive%%
+
+set "SYSDIR=%SystemRoot%\System32" && call :REREG
+set "SYSDIR=%SystemRoot%\SysWOW64" && call :REREG
+
+call :CMD sc config winmgmt start= auto
+call :CMD net start winmgmt
+
+exit /b 0
+
+:REREG
+call :CMD cd "%%SYSDIR%%\wbem" || exit /b
+
+echo;Rebuilding "%SYSDIR%"...
+
+call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /clearadap
+call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /kill
+call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /unregserver
+
+if exist "%SYSDIR%\wbem\wmiapsrv.exe" (
+  call :CMD "%%SYSDIR%%\wbem\wmiapsrv.exe" /unregister
+  call :CMD "%%SYSDIR%%\wbem\wmiapsrv.exe" /regserver
+)
+
+call :CMD "%%SYSDIR%%\wbem\wmiprvse.exe" /unregister
+call :CMD "%%SYSDIR%%\wbem\wmiprvse.exe" /regserver
+call :CMD "%%SYSDIR%%\wbem\wmiprvse.exe" /regserverpause
+
+call :CMD "%%SYSDIR%%\wbem\wmiadap.exe" /unregister
+call :CMD "%%SYSDIR%%\wbem\wmiadap.exe" /regserver
+
+call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /regserver
+
+for /F "usebackq tokens=* delims="eol^= %%i in (`@dir *.dll /B`) do ^
+set "FILE=%%i" & call :CMD "%%SYSDIR%%\regsvr32.exe" /s "%%FILE%%"
+
+rem CD to system drive root
+call :CMD cd "%%SystemDrive%%"
+
+call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /verifyrepository
+call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /salvagerepository
+
+rem exclude `uninstall` and `remove`
+for /F "usebackq tokens=* delims="eol^= %%i in (`@dir "%%SYSDIR%%\wbem\*.mof" "%%SYSDIR%%\wbem\*.mfl" /B ^| "%%SystemRoot%%\System32\findstr.exe" /I /V uninstall ^| "%%SystemRoot%%\System32\findstr.exe" /I /V remove`) do ^
+set "FILE=%%i" & call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" "%%SYSDIR%%\wbem\%%FILE%%"
+
+call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /resyncperf
+
+call :CMD "%%SYSDIR%%\rundll32.exe" wbemupgd, RepairWMISetup
+rem call :CMD "%%SYSDIR%%\rundll32.exe" wbemupgd, UpgradeRepository
+
+echo;===
+echo;
+
+exit /b 0
+
+:CMD
+echo;^>%*
+(
+  %*
+)
+echo;
