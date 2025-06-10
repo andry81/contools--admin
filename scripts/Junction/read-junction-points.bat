@@ -1,9 +1,31 @@
 @echo off
 
 rem USAGE:
-rem   read-junction-points.bat <from-path> > <junction-list-file>
+rem   read-junction-points.bat [<flags>] [//] <from-path> > <junction-list-file>
 
 setlocal DISABLEDELAYEDEXPANSION
+
+rem script flags
+set "BARE_FLAGS="
+
+:FLAGS_LOOP
+
+rem flags always at first
+set "FLAG=%~1"
+
+if defined FLAG ^
+if not "%FLAG:~0,1%" == "/" set "FLAG="
+
+if defined FLAG (
+  if not "%FLAG%" == "//" (
+    set BARE_FLAGS=%BARE_FLAGS% %1
+  )
+
+  shift
+
+  rem read until no flags
+  if not "%FLAG%" == "//" goto FLAGS_LOOP
+)
 
 set "FROM_PATH=%~1"
 
@@ -22,7 +44,7 @@ rem      statement does expand twice.
 rem
 rem   We must expand the command line into a variable to avoid these above.
 rem
-set ?.=@dir "%FROM_PATH%" /A:L /O:N /S 2^>nul ^| "%SystemRoot%\System32\findstr.exe" /R /C:"[^ ][^ ]*  *[^ ][^ ]*  *\<JUNCTION\>" /C:"[^ ][^ ]*  *[^ ][^ ]*  *\<SYMLINKD\>" /C:"^ Directory of "
+set ?.=@dir "%FROM_PATH%"%BARE_FLAGS% /A:L /O:N 2^>nul ^| "%SystemRoot%\System32\findstr.exe" /R /C:"[^ ][^ ]*  *[^ ][^ ]*  *\<JUNCTION\>" /C:"[^ ][^ ]*  *[^ ][^ ]*  *\<SYMLINKD\>" /C:"^ Directory of "
 
 for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do set "LINE=%%i" & call :PROCESS_LINE
 exit /b 0

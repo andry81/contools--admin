@@ -1,3 +1,6 @@
+2025.06.10:
+* new: scripts/Junction: added bare flag options
+
 2025.06.06:
 * fixed: scripts/*.bat: Windows XP Administrator privileges elevation code fixup
 * new: WMI/rebuild_wbem.bat: WMI repository rebuild script
