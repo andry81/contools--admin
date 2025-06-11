@@ -57,4 +57,4 @@ exit /b 0
 :PROCESS_DIR
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=3,* delims= "eol^= %%i in ("!LINE!") do endlocal & set "LINE=%%j" & ^
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=1,* delims=:"eol^= %%i in ("!LINE!") do endlocal & set "LINK=%%i" & set "DIR=%%j" & ^
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=1,* delims=|"eol^= %%i in ("!FROM_DIR!\!LINK:~0,-3!|!LINK:~-1!!DIR:~0,-1!") do endlocal & echo;%%i*%%j
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=1,* delims=|"eol^= %%i in ("!FROM_DIR!\!LINK:~0,-3!|!LINK:~-1!:!DIR:~0,-1!") do endlocal & echo;%%i*%%j

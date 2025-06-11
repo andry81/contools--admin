@@ -1,3 +1,6 @@
+2025.06.11:
+* fixed: scripts/Junction/read-junction-points.bat: execution fixup
+
 2025.06.10:
 * new: scripts/Junction: added bare flag options
 
