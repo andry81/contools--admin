@@ -1,3 +1,6 @@
+2025.06.12:
+* changed: scripts/WMI/rebuild_wbem.bat: improvements
+
 2025.06.11:
 * fixed: scripts/Junction/read-junction-points.bat: execution fixup
 

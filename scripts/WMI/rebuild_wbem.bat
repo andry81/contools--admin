@@ -1,6 +1,7 @@
 @echo off
 
 rem Based on:
+rem   * https://github.com/search?q=repo%3Abmrf%2Ftron%20path%3Arepair_wmi.bat&type=code
 rem   * `Is there any Script for Rebuilding WMI` :
 rem     https://learn.microsoft.com/en-us/answers/questions/1791997/is-there-any-script-for-rebuilding-wmi
 rem   * `WMI: Rebuilding the WMI Repository` :
@@ -78,16 +79,28 @@ if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
 
 rem ===========================================================================
 
-call :CMD sc config winmgmt start= disabled
-call :CMD net stop winmgmt /y
+rem stop dependencies
+for /f "usebackq tokens=1,* delims= "eol^= %%i in (`@"%%SystemRoot%%\System32\sc.exe" enumdepend winmgmt ^| "%%SystemRoot%%\System32\findstr.exe" -i "SERVICE_NAME"`) do call :CMD "%%SystemRoot%%\System32\net.exe" stop %%j /y
 
-call :CMD %%SystemDrive%%
+call :CMD "%%SystemRoot%%\System32\net.exe" stop winmgmt /y
+call :CMD "%%SystemRoot%%\System32\sc.exe" stop winmgmt
+
+timeout /t 5
+
+call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /verifyrepository
+call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /salvagerepository
 
 set "SYSDIR=%SystemRoot%\System32" && call :REREG
 set "SYSDIR=%SystemRoot%\SysWOW64" && call :REREG
 
-call :CMD sc config winmgmt start= auto
-call :CMD net start winmgmt
+call :CMD "%%SystemRoot%%\System32\sc.exe" start winmgmt
+
+for /f "usebackq tokens=1,* delims= "eol^= %%i in (`@"%%SystemRoot%%\System32\sc.exe" enumdepend winmgmt ^| "%%SystemRoot%%\System32\findstr.exe" -i "SERVICE_NAME"`) do call :CMD "%%SystemRoot%%\System32\sc.exe" start %%j
+
+timeout /t 5
+
+call :CMD "%%SystemRoot%%\System32\wbem\winmgmt.exe" /resyncperf
+call :CMD "%%SystemRoot%%\SysWOW64\wbem\winmgmt.exe" /resyncperf
 
 exit /b 0
 
@@ -98,39 +111,71 @@ echo;Rebuilding "%SYSDIR%"...
 
 call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /clearadap
 call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /kill
-call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /unregserver
 
-if exist "%SYSDIR%\wbem\wmiapsrv.exe" (
-  call :CMD "%%SYSDIR%%\wbem\wmiapsrv.exe" /unregister
-  call :CMD "%%SYSDIR%%\wbem\wmiapsrv.exe" /regserver
-)
-
-call :CMD "%%SYSDIR%%\wbem\wmiprvse.exe" /unregister
-call :CMD "%%SYSDIR%%\wbem\wmiprvse.exe" /regserver
-call :CMD "%%SYSDIR%%\wbem\wmiprvse.exe" /regserverpause
-
-call :CMD "%%SYSDIR%%\wbem\wmiadap.exe" /unregister
-call :CMD "%%SYSDIR%%\wbem\wmiadap.exe" /regserver
-
-call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /regserver
-
-for /F "usebackq tokens=* delims="eol^= %%i in (`@dir *.dll /B`) do ^
-set "FILE=%%i" & call :CMD "%%SYSDIR%%\regsvr32.exe" /s "%%FILE%%"
+setlocal
 
 rem CD to system drive root
 call :CMD cd "%%SystemDrive%%"
 
-call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /verifyrepository
-call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /salvagerepository
+call :CMD "%SYSDIR%\regsvr32.exe" /s "%SYSDIR%\scecli.dll"
+call :CMD "%SYSDIR%\regsvr32.exe" /s "%SYSDIR%\userenv.dll"
+
+rem rebuild at first
+for %%i in (cimwin32 rsop) do (
+  call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" "%%SYSDIR%%\wbem\%%i.mof"
+  call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" "%%SYSDIR%%\wbem\%%i.mfl"
+)
+
+endlocal
+
+for /F "usebackq tokens=* delims="eol^= %%i in (`@dir *.dll /A:-D /B /O:N`) do ^
+set "FILE=%%i" & call :CMD "%%SYSDIR%%\regsvr32.exe" /s "%%FILE%%"
+
+for /F "usebackq tokens=* delims="eol^= %%i in (`@dir *.exe /A:-D /B /O:N`) do ^
+if /i not "%%i" == "wbemcntl.exe" ^
+if /i not "%%i" == "wbemtest.exe" ^
+if /i not "%%i" == "wmic.exe" ^
+if /i not "%%i" == "mofcomp.exe" ^
+set "FILE=%%i" & call :CMD "%%FILE%%" /regserver
+
+setlocal
+
+rem CD to system drive root
+call :CMD cd "%%SystemDrive%%"
 
 rem exclude `uninstall` and `remove`
-for /F "usebackq tokens=* delims="eol^= %%i in (`@dir "%%SYSDIR%%\wbem\*.mof" "%%SYSDIR%%\wbem\*.mfl" /B ^| "%%SystemRoot%%\System32\findstr.exe" /I /V uninstall ^| "%%SystemRoot%%\System32\findstr.exe" /I /V remove`) do ^
+for /F "usebackq tokens=* delims="eol^= %%i in (`@dir "%%SYSDIR%%\wbem\*.mof" /A:-D /B /O:N ^| "%%SystemRoot%%\System32\findstr.exe" /I /V /C:"uninstall" /C:"remove"`) do ^
 set "FILE=%%i" & call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" "%%SYSDIR%%\wbem\%%FILE%%"
 
-call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /resyncperf
+if exist "%SYSDIR%\wbem\MUI\*" ^
+for /F "usebackq tokens=* delims="eol^= %%i in (`@dir "%%SYSDIR%%\wbem\MUI\*.mof" /A:-D /B /O:N /S ^| "%%SystemRoot%%\System32\findstr.exe" /I /V /C:"uninstall" /C:"remove"`) do ^
+set "FILE=%%i" & call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" "%%FILE%%"
 
-call :CMD "%%SYSDIR%%\rundll32.exe" wbemupgd, RepairWMISetup
+for /F "usebackq tokens=* delims="eol^= %%i in (`@dir "%%SYSDIR%%\wbem\*.mfl" /A:-D /B /O:N ^| "%%SystemRoot%%\System32\findstr.exe" /I /V /C:"uninstall" /C:"remove"`) do ^
+set "FILE=%%i" & call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" "%%SYSDIR%%\wbem\%%FILE%%"
+
+if exist "%SYSDIR%\wbem\MUI\*" ^
+for /F "usebackq tokens=* delims="eol^= %%i in (`@dir "%%SYSDIR%%\wbem\MUI\*.mfl" /A:-D /B /O:N /S ^| "%%SystemRoot%%\System32\findstr.exe" /I /V /C:"uninstall" /C:"remove"`) do ^
+set "FILE=%%i" & call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" "%%FILE%%"
+
+if exist "%SYSDIR%\wbem\exwmi.mof" (
+  call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" "%%SYSDIR%%\wbem\exwmi.mof"
+
+  call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" -n:root\cimv2\applications\exchange "%%SYSDIR%%\wbem\wbemcons.mof"
+  call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" -n:root\cimv2\applications\exchange "%%SYSDIR%%\wbem\smtpcons.mof"
+
+  call :CMD "%%SYSDIR%%\wbem\mofcomp.exe" "%%SYSDIR%%\wbem\exmgmt.mof"
+)
+
+endlocal
+
 rem call :CMD "%%SYSDIR%%\rundll32.exe" wbemupgd, UpgradeRepository
+call :CMD "%%SYSDIR%%\rundll32.exe" wbemupgd, RepairWMISetup
+
+rem trigger a post install by `wmic.exe` execution
+call :CMD_NOSTDOUT "%%SYSDIR%%\wbem\wmic.exe" exit
+call :CMD_NOSTDOUT "%%SYSDIR%%\wbem\wmic.exe" computersystem get name
+call :CMD_NOSTDOUT "%%SYSDIR%%\wbem\wmic.exe" path Win32_OperatingSystem get LocalDateTime
 
 echo;===
 echo;
@@ -143,3 +188,12 @@ echo;^>%*
   %*
 )
 echo;
+exit /b 0
+
+:CMD_NOSTDOUT
+echo;^>%*
+(
+  %*
+) >nul
+echo;
+exit /b 0
