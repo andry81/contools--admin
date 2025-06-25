@@ -7,15 +7,15 @@ repositories:
     subpaths:
       - __init__
       - _config
-      - Scripts/__init__
-      - Scripts/Tools/__init__
-      - Scripts/Tools/build
-      - Scripts/Tools/cleanup
-      - Scripts/Tools/exec
-      - Scripts/Tools/std
-      - Scripts/Tools/wmi
-      - Scripts/Tools/ToolAdaptors/__init__
-      - Scripts/Tools/ToolAdaptors/hta
+      - scripts/__init__
+      - scripts/tools/__init__
+      - scripts/tools/build
+      - scripts/tools/cleanup
+      - scripts/tools/exec
+      - scripts/tools/std
+      - scripts/tools/wmi
+      - scripts/tools/ToolAdaptors/__init__
+      - scripts/tools/ToolAdaptors/hta
 
   _externals/contools--utils:
     type:         git
