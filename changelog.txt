@@ -1,3 +1,6 @@
+2025.07.01:
+* fixed: .externals: missed `contools/tools` directory
+
 2025.06.25:
 * refactor: global directories rename to lower case name
 
