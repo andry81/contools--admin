@@ -1,3 +1,6 @@
+2025.07.03:
+* changed: .externals: cleanup
+
 2025.07.01:
 * fixed: .externals: missed `contools/tools` directory
 
