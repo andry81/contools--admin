@@ -1,3 +1,6 @@
+2025.07.18:
+* fixed: __init__: missed to create an output config directory
+
 2025.07.07:
 * changed: *.bat: flag parse global code improvement, added `-+` flag to begin flags scope
 

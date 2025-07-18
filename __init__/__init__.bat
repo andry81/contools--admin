@@ -50,6 +50,10 @@ rem init external projects
 
 rem ...
 
+if %NO_GEN%0 EQU 0 (
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%CONTOOLS_ADMIN_PROJECT_OUTPUT_CONFIG_ROOT%%" || exit /b
+)
+
 if not defined LOAD_CONFIG_VERBOSE if %INIT_VERBOSE%0 NEQ 0 set LOAD_CONFIG_VERBOSE=1
 
 if %NO_GEN%0 EQU 0 (
