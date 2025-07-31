@@ -1,3 +1,6 @@
+2025.07.31:
+* refactor: directories refactor
+
 2025.07.18:
 * fixed: __init__: missed to create an output config directory
 

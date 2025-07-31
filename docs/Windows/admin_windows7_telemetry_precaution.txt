@@ -1,6 +1,6 @@
 * admin_windows7_telemetry_precaution.txt
-* 2025.02.27
-* contools--admin/TasksDisable/Telemetry
+* 2025.07.31
+* contools--admin/TasksDisable
 
 1. DESCRIPTION
 2. AFTER INSTALL
@@ -10,7 +10,7 @@
 -------------------------------------------------------------------------------
 1. DESCRIPTION
 -------------------------------------------------------------------------------
-Telemetry precaution in Windows 7.
+Telemetry precaution in Windows 7/8.
 
 -------------------------------------------------------------------------------
 2. AFTER INSTALL
@@ -52,18 +52,18 @@ Telemetry precaution in Windows 7.
 
   1. Block all external process calls from browser processes
   2. Block `tracert.exe` process from any other process except directly from
-    `cmd.exe` which runned directly by the user (for example, from Total
+    `cmd.exe` which has ran directly by the user (for example, from Total
       Commander or Far process)
 
 7. Disable services related to the Microsoft Visual Studio
 
-7.1. Block Visual Studio hab processes by:
+7.1. Block Visual Studio hub processes by:
 
   1. Renaming `c:\Program Files (x86)\Common Files\microsoft shared\VsHub`
     directory into  `VsHub_`
   2. Create new empty
     `c:\Program Files (x86)\Common Files\microsoft shared\VsHub` directory
-  3. Add deny premission for execute/write to the
+  3. Add deny permission for execute/write to the
     `c:\Program Files (x86)\Common Files\microsoft shared\VsHub` directory for
     the `Everyone` user
 
@@ -74,8 +74,8 @@ Telemetry precaution in Windows 7.
   3. In the Visual Studio Experience Improvement Program dialog, select
     `No, I would not like to participate.`
 
-8. Run `*_disable_telemetry_junk_win7.bat` scripts to cleanup system from
-   telemetry junk updates.
+8. Run `*_disable_*_win*.bat` scripts to cleanup system from builtin telemetry
+  and maintenance tasks.
 
 -------------------------------------------------------------------------------
 3. UPDATING
@@ -83,7 +83,7 @@ Telemetry precaution in Windows 7.
 
 1. Avoid install updates listed here:
 
-* `admin/KnownIssues/admin_windows7_crash_updates.txt`
+* `KnownIssues/admin_windows7_crash_updates.txt`
 
 2. Avoid install updates listed in the scripts:
 
