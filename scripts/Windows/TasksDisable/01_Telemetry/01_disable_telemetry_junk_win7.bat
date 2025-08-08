@@ -102,7 +102,7 @@ echo;%?~%: retakeowner last error code: %ERRORLEVEL%
 :RETAKEOWNER_WORKAROUND_END
 
 call :CMD icacls "%%FILE%%" /remove:g "NT SERVICE\TrustedInstaller"
-call :CMD icacls "%%FILE%%" /deny *S-1-1-0:(WO,GE)
+call :CMD icacls "%%FILE%%" /deny "*S-1-1-0:(WO,GE)"
 
 echo;
 

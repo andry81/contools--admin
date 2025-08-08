@@ -1,4 +1,8 @@
 2025.08.08:
+* fixed: scripts/Windows/TasksDisable/01_Telemetry/01_disable_telemetry_junk_win7.bat: invalid parameter error
+* new: scripts/Windows/TasksDisable/02_Maintenance/03_disable_task_scheduler_new_tasks.bat: script to prevent the Task Scheduler of a new task creation for everyone
+
+2025.08.08:
 * fixed: scripts/Windows/__init__: missed initialization script
 * new: .externals: `sysinternals` external
 * new: scripts/Windows/PsExec: `psexec` related scripts
