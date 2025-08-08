@@ -1,3 +1,8 @@
+2025.08.08:
+* fixed: scripts/Windows/__init__: missed initialization script
+* new: .externals: `sysinternals` external
+* new: scripts/Windows/PsExec: `psexec` related scripts
+
 2025.07.31:
 * refactor: directories refactor
 
