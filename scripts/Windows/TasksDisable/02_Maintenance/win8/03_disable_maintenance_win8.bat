@@ -2,7 +2,6 @@
 
 rem Description:
 rem   Script disables maintenance tasks in Windows 8...
-rem
 
 setlocal
 
@@ -23,6 +22,12 @@ call "%%CONTOOLS_ROOT%%/std/is_system_elevated.bat" || (
   exit /b 255
 ) >&2
 
+rem detect date year ending format in `control.exe intl.cpl` because of different `/SD` parameter format in `schtasks /change /?`
+set DATE_YEAR_FORMAT_LEFT=1
+(
+  reg query "HKCU\Control Panel\International" /v sShortDate | findstr /L /C:"sShortDate" | findstr /R /C:"[-/]yy"
+) >nul && set DATE_YEAR_FORMAT_LEFT=0
+
 call :CMD schtasks /Change /tn "\Microsoft\Windows\AppID\VerifiedPublisherCertStoreCheck" /Disable
 
 call :CMD schtasks /Change /tn "\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" /Disable
@@ -37,7 +42,9 @@ call :CMD schtasks /Change /tn "\Microsoft\Windows\Shell\IndexerAutomaticMainten
 call :CMD schtasks /Change /tn "\Microsoft\Windows\SkyDrive\Routine Maintenance Task" /Disable
 
 rem saw a reenable by WUS, update the trigger time instead
-call :CMD schtasks /Change /tn "\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask" /SD 01/01/3000
+if %DATE_YEAR_FORMAT_LEFT% NEQ 0 (
+  call :CMD schtasks /Change /tn "\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask" /SD 3000/01/01
+) else call :CMD schtasks /Change /tn "\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask" /SD 01/01/3000
 
 call :CMD schtasks /Change /tn "\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTaskLogon" /Disable
 call :CMD schtasks /Change /tn "\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTaskNetwork" /Disable

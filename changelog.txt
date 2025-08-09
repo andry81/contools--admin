@@ -1,3 +1,9 @@
+2025.08.09:
+* fixed: scripts/Windows/TasksDisable/02_Maintenance/win*/03_disable_maintenance_win*.bat: date year ending format fix
+* new: scripts/Windows/TasksDisable: tasks disable script variants for Windows 7
+* new: scripts/Windows/RunDll/UpdateSystemParams.bat: update system parameters script after a system locale change
+* changed: scripts/Windows/TasksDisable/01_Telemetry/01_disable_telemetry_junk_win7.bat: switched to use `retakeowner.exe` as an external
+
 2025.08.08:
 * fixed: scripts/Windows/TasksDisable/01_Telemetry/01_disable_telemetry_junk_win7.bat: invalid parameter error
 * new: scripts/Windows/TasksDisable/02_Maintenance/03_disable_task_scheduler_new_tasks.bat: script to prevent the Task Scheduler of a new task creation for everyone

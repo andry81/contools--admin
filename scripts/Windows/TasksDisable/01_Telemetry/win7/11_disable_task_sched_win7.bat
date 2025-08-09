@@ -1,8 +1,7 @@
 @echo off
 
 rem Description:
-rem   Script disables telemetry junk from Microsoft and others...
-rem
+rem   Script disables telemetry tasks in Windows 7...
 
 setlocal
 
@@ -27,16 +26,16 @@ call :CMD schtasks /Change /tn "\Microsoft\Windows\Application Experience\AitAge
 call :CMD schtasks /Change /tn "\Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser" /Disable
 call :CMD schtasks /Change /tn "\Microsoft\Windows\Application Experience\ProgramDataUpdater" /Disable
 
-call :CMD schtasks /Change /tn "\Microsoft\Windows\Customer Experience Improvement Program\BthSQM" /Disable
+rem call :CMD schtasks /Change /tn "\Microsoft\Windows\Customer Experience Improvement Program\BthSQM" /Disable
 call :CMD schtasks /Change /tn "\Microsoft\Windows\Customer Experience Improvement Program\Consolidator" /Disable
 call :CMD schtasks /Change /tn "\Microsoft\Windows\Customer Experience Improvement Program\KernelCeipTask" /Disable
 call :CMD schtasks /Change /tn "\Microsoft\Windows\Customer Experience Improvement Program\UsbCeip" /Disable
 
-call :CMD schtasks /Change /tn "\Microsoft\Windows\WindowsUpdate\AUFirmwareInstall" /Disable
-call :CMD schtasks /Change /tn "\Microsoft\Windows\WindowsUpdate\AUScheduledInstall" /Disable
-call :CMD schtasks /Change /tn "\Microsoft\Windows\WindowsUpdate\AUSessionConnect" /Disable
-call :CMD schtasks /Change /tn "\Microsoft\Windows\WindowsUpdate\Scheduled Start" /Disable
-call :CMD schtasks /Change /tn "\Microsoft\Windows\WindowsUpdate\Scheduled Start With Network" /Disable
+rem call :CMD schtasks /Change /tn "\Microsoft\Windows\WindowsUpdate\AUFirmwareInstall" /Disable
+rem call :CMD schtasks /Change /tn "\Microsoft\Windows\WindowsUpdate\AUScheduledInstall" /Disable
+rem call :CMD schtasks /Change /tn "\Microsoft\Windows\WindowsUpdate\AUSessionConnect" /Disable
+rem call :CMD schtasks /Change /tn "\Microsoft\Windows\WindowsUpdate\Scheduled Start" /Disable
+rem call :CMD schtasks /Change /tn "\Microsoft\Windows\WindowsUpdate\Scheduled Start With Network" /Disable
 
 echo;
 

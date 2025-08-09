@@ -1,8 +1,7 @@
 @echo off
 
 rem Description:
-rem   Script disables telemetry junk from Microsoft and others...
-rem
+rem   Script disables telemetry tasks in Windows 8...
 
 setlocal
 

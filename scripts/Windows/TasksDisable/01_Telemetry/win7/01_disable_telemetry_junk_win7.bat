@@ -40,6 +40,8 @@ if exist "%SystemRoot%\Sysnative\*" (
 :X64
 :X32
 
+if not defined RETAKEOWNER_EXE if defined CONTOOLS_UTILS_BIN_ROOT set "RETAKEOWNER_EXE=%CONTOOLS_UTILS_BIN_ROOT%/retakeowner.exe"
+
 set "COMPATTELRUNNER_LOG_DIR=%ProgramData%\Microsoft\Diagnosis\ETLLogs\AutoLogger"
 
 echo Stopping and disabling CompatTelRunner.exe services..
@@ -87,7 +89,8 @@ exit /b
 
 :UPDATE_PERMISSIONS
 echo;^>%FILE%
-if exist "%~dp0retakeowner.exe" goto RETAKEOWNER_WORKAROUND
+
+if exist "%RETAKEOWNER_EXE%" goto RETAKEOWNER_WORKAROUND
 
 rem CAUTION: Obsolete implementation, `takeown` and `icacls` does not work anymore on TrustedInstaller protected files!
 echo;%?~%: warning: system takeown utility may fail to take ownership on TrustedInstaller protected files beginning from Windows 7. Copy `retakeowner.exe` utility into directory with the script to bypass this issue.
@@ -96,7 +99,7 @@ call :CMD takeown /S localhost /U "%%USERNAME%%" /F "%%FILE%%"
 goto RETAKEOWNER_WORKAROUND_END
 
 :RETAKEOWNER_WORKAROUND
-call :CMD "%%~dp0retakeowner.exe" "%%FILE%%" "%%USERNAME%%"
+call :CMD "%%RETAKEOWNER_EXE%%" "%%FILE%%" "%%USERNAME%%"
 echo;%?~%: retakeowner last error code: %ERRORLEVEL%
 
 :RETAKEOWNER_WORKAROUND_END

@@ -5,7 +5,6 @@ rem   Script prevents the Task Scheduler of a new task creation for everyone.
 rem
 rem   Based on:
 rem     https://superuser.com/questions/1222551/how-to-prevent-programs-from-making-new-entries-in-task-scheduler-when-installin/1237127#1237127
-rem
 
 setlocal
 
@@ -26,7 +25,7 @@ call "%%CONTOOLS_ROOT%%/std/is_system_elevated.bat" || (
   exit /b 255
 ) >&2
 
-call :CMD icacls "%%SystemRoot%%\System32\Tasks" /deny "*S-1-1-0:(AD)"
+call :CMD icacls "%%SystemRoot%%\System32\Tasks" /deny "*S-1-1-0:(WD)"
 
 echo;
 
