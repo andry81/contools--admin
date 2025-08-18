@@ -1,3 +1,6 @@
+2025.08.18:
+* new: scripts/Windows/DotNet/reg_print_ndp_keys.bat: script to print a list of installed `.NET` frameworks using registry keys
+
 2025.08.09:
 * fixed: scripts/Windows/TasksDisable/02_Maintenance/win*/03_disable_maintenance_win*.bat: date year ending format fix
 * new: scripts/Windows/TasksDisable: tasks disable script variants for Windows 7
