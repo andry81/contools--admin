@@ -1,4 +1,10 @@
 2025.10.14:
+* fixed: scripts/Windows/__init__: missed an initialization script
+* new: .externals-*: missed externals
+* new: scripts/Windows/MSI/print_installer_packages.bat: script to print installer packages from `%SystemRoot%\Installer`
+* changed: .externals: added `vbs` scripts dependency
+
+2025.10.14:
 * fixed: scripts/Windows/TaskSched/disable_tasksched_triggers.vbs: command line parse minor fix
 
 2025.10.03:
