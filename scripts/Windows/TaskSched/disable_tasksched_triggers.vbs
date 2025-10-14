@@ -100,9 +100,20 @@ End Sub
 
 ReDim cmd_args(WScript.Arguments.Count - 1)
 
-For i = 0 To WScript.Arguments.Count-1
-  cmd_args(j) = WScript.Arguments(i)
-Next
+Dim arg
+Dim j : j = 0
+
+For i = 0 To WScript.Arguments.Count-1 : Do ' empty `Do-Loop` to emulate `Continue`
+  arg = WScript.Arguments(i)
+
+  ' read command line flags here...
+
+  cmd_args(j) = arg
+
+  j = j + 1
+Loop While False : Next
+
+ReDim Preserve cmd_args(j - 1)
 
 ' MsgBox Join(cmd_args, " ")
 

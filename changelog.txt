@@ -1,3 +1,6 @@
+2025.10.14:
+* fixed: scripts/Windows/TaskSched/disable_tasksched_triggers.vbs: command line parse minor fix
+
 2025.10.03:
 * new: scripts/Windows/TaskSched/disable_tasksched_triggers.*: scripts to disable a task triggers
 
