@@ -54,6 +54,11 @@ call :CMD schtasks /Change /tn "\Microsoft\Windows\Work Folders\Work Folders Mai
 
 call :CMD schtasks /Change /tn "\Microsoft\Windows\WS\WSTask" /Disable
 
+rem Annoying attempts to remove a Language Pack on each boot consuming drive space.
+rem Details: https://www.techguy.org/threads/solved-can-i-safely-delete-the-tons-of-lpksetup-files-in-my-temp-folder.719411/
+rem
+call :CMD schtasks /Change /tn "\Microsoft\Windows\MUI\Lpksetup" /Disable
+
 echo;
 
 pause

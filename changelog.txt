@@ -1,3 +1,6 @@
+2025.10.17:
+* changed: scripts/Windows/TasksDisable/02_Maintenance/win*/03_disable_maintenance_win*.bat: added disable `Lpksetup` task
+
 2025.10.14:
 * fixed: scripts/Windows/__init__: missed an initialization script
 * new: .externals-*: missed externals
