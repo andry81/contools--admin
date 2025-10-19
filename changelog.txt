@@ -1,3 +1,7 @@
+2025.10.19:
+* new: scripts/Windows/FileSystem/print_last_mountvol.bat: script to print last known local drive volume GUIDs
+* new: scripts/Windows/FileSystem/get_drives_list.*: scripts extracted from `contools` project
+
 2025.10.17:
 * changed: scripts/Windows/TasksDisable/02_Maintenance/win*/03_disable_maintenance_win*.bat: added disable `Lpksetup` task
 
