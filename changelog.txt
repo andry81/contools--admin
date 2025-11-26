@@ -1,4 +1,7 @@
 2025.11.26:
+* new: scripts/Windows/Browser/open_by_default_browser*.bat: scripts to open a path or a local file in a default browser instead of file extension default association
+
+2025.11.26:
 * changed: scripts/__init__/script_init.bat: added the elevation external control
 
 2025.11.26:
