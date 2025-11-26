@@ -1,4 +1,7 @@
 2025.11.26:
+* changed: scripts/__init__/script_init.bat: added the elevation external control
+
+2025.11.26:
 * changed: __init__.bat: minor refactor
 
 2025.10.19:
