@@ -1,3 +1,6 @@
+2025.11.26:
+* changed: __init__.bat: minor refactor
+
 2025.10.19:
 * new: scripts/Windows/FileSystem/print_last_mountvol.bat: script to print last known local drive volume GUIDs
 * new: scripts/Windows/FileSystem/get_drives_list.*: scripts extracted from `contools` project
