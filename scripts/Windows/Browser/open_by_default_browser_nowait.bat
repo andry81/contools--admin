@@ -8,14 +8,19 @@ for /F "usebackq tokens=1,2,*"eol^= %%i in (`@"%SystemRoot%\System32\reg.exe" qu
 rem If no UserChoice is found, fall back to HKEY_CLASSES_ROOT\htmlfile
 if not defined BrowserProgID set "BrowserProgID=htmlfile"
 
-REM Query the registry to get the command for opening the default browser
+rem Query the registry to get the command for opening the default browser
 for /f "usebackq tokens=1,2,*"eol^= %%i in (`@"%SystemRoot%\System32\reg.exe" query "HKCR\%BrowserProgID%\shell\open\command" /ve 2^>nul`) do if "%%i" == "(Default)" set "BrowserCommand=%%k"
 
 setlocal ENABLEDELAYEDEXPANSION
 
-set "BrowserCommand=!BrowserCommand:%%0=!"
+rem Handle a simple case with already surrounded quotes at first!
+set "BrowserCommand=!BrowserCommand:"%%0"=""!"
 
-for /L %%i in (1,1,9) do set "BrowserCommand=!BrowserCommand:%%%%i=%%~%%i!"
+for /L %%i in (1,1,9) do set "BrowserCommand=!BrowserCommand:"%%%%i"="%%~%%i"!"
+
+set "BrowserCommand=!BrowserCommand:%%0=""!"
+
+for /L %%i in (1,1,9) do set "BrowserCommand=!BrowserCommand:%%%%i="%%~%%i"!"
 
 for /F "usebackq tokens=* delims="eol^= %%i in ('"!BrowserCommand!"') do endlocal & set "BrowserCommand=%%~i"
 

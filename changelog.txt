@@ -1,3 +1,6 @@
+2025.12.10:
+* changed: scripts/Windows/Browser/open_by_default_browser*.bat: added support of a shell command with and without surrounding quotes for an argument
+
 2025.11.26:
 * new: scripts/Windows/Browser/open_by_default_browser*.bat: scripts to open a path or a local file in a default browser instead of file extension default association
 
