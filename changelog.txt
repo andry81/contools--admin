@@ -1,3 +1,7 @@
+2026.02.09:
+* fixed: changelog.txt, scripts/Windows/FileSystem/clear_file_streams.bat: line endings fixup
+* changed: *.bat: global code refactor, `type nul >` replaced by `call;>` as a bit faster
+
 2025.12.10:
 * changed: scripts/Windows/Browser/open_by_default_browser*.bat: added support of a shell command with and without surrounding quotes for an argument
 

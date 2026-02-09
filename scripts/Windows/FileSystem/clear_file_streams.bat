@@ -157,7 +157,7 @@ for %%j in (%__STRING__%) do for /F "tokens=* delims="eol^= %%k in ("\\?\%%i:%%~
     if !STREAM_SIZE! NEQ 0 (
       endlocal & "%SystemRoot%\System32\find.exe" /V "" < "%%k" & echo;
     ) else endlocal
-    type nul > "%%k"
+    call;> "%%k"
   )
 )
 
