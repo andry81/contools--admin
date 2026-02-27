@@ -17,7 +17,6 @@ repositories:
       - scripts/tools/ToolAdaptors/__init__
       - scripts/tools/ToolAdaptors/hta
       - scripts/tools/ToolAdaptors/vbs
-      - tools
 
   _externals/contools--utils:
     type:         git

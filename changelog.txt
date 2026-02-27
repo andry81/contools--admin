@@ -1,3 +1,6 @@
+2026.02.27:
+* changed: .externals: update to the latest
+
 2026.02.09:
 * fixed: changelog.txt, scripts/Windows/FileSystem/clear_file_streams.bat: line endings fixup
 * changed: *.bat: global code refactor, `type nul >` replaced by `call;>` as a bit faster
