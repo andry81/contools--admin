@@ -1,3 +1,6 @@
+2026.03.20:
+* refactor: scripts/*.bat: minor refactor
+
 2026.03.10:
 * changed: __init__: minor improvement
 
