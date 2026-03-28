@@ -1,3 +1,6 @@
+2026.03.28:
+* new: scripts/Windows/FileSystem/ping_drives.bat: ping drives script
+
 2026.03.20:
 * refactor: scripts/*.bat: minor refactor
 
