@@ -7,7 +7,8 @@ rem Example:
 rem   newcred.bat git:https://github.com USER PASS Enterprise
 rem   newcred.bat git:https://USER@github.com USER PASS LocalMachine
 
-setlocal DISABLEDELAYEDEXPANSION
+rem second `setlocal` to drop locals before a command line execution
+setlocal DISABLEDELAYEDEXPANSION & setlocal
 
 rem script names call stack, disabled due to self call and partial inheritance (process elevation does not inherit a parent process variables by default)
 rem if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-^>%~nx0" ) else set "?~=%~nx0"
@@ -46,9 +47,9 @@ if defined FLAG (
 
 if %FLAG_ELEVATE% EQU 0 goto IMPL
 if %IMPL_MODE%0 NEQ 0 goto IMPL
-call :IS_ADMIN_ELEVATED && goto ELEVATED
+call :IS_ADMIN_ELEVATED || goto CALL_ELEVATE_AND_EXIT
 
-goto ELEVATE
+goto ELEVATED
 
 rem CAUTIOM:
 rem   Windows 7 has an issue around the `find.exe` utility and code page 65001.
@@ -70,7 +71,7 @@ if %WINDOWS_MAJOR_VER% GEQ 6 (
 ) else if exist "%SystemRoot%\System32\fltmc.exe" "%SystemRoot%\System32\fltmc.exe" >nul 2>nul & exit /b
 exit /b 255
 
-:ELEVATE
+:CALL_ELEVATE_AND_EXIT
 rem Based on:
 rem   `Uniform variant of a command line as a single argument for the `mshta.exe` executable and other cases` :
 rem   https://github.com/andry81/contools/discussions/11
@@ -99,7 +100,12 @@ setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$0
 
 rem CAUTION: ShellExecute does not wait a child process close!
 rem NOTE: `ExecuteGlobal` is used as a workaround, because the `mshta.exe` first argument must not be used with the surrounded quotes
-start /B /WAIT "" "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%COMSPEC%"", ""/c @%?.%"", """", ""runas"", 1))")
+
+rem with locals drop
+setlocal ENABLEDELAYEDEXPANSION & ^
+for /F "usebackq tokens=* delims="eol^= %%i in ('"!COMSPEC!"') do ^
+for /F "usebackq tokens=* delims="eol^= %%j in ('"!?.!"') do endlocal & endlocal & ^
+start /B /WAIT "" "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%%~i"", ""/c @%%~j"", """", ""runas"", 1))")
 exit /b
 
 :ELEVATED
