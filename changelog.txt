@@ -1,3 +1,6 @@
+2026.04.04:
+* fixed: scripts/Windows/FileSystem: print_file_paths.bat, clear_file_streams.bat: proper file globbing detection
+
 2026.03.29:
 * changed: scripts/*.bat: scripts with elevation code improvement
 

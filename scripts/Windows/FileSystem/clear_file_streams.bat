@@ -1,4 +1,4 @@
-@echo off
+@echo off & goto DOC_END
 
 rem USAGE:
 rem   clear_file_streams.bat [<flags>] [--] [<glob-path> [<streams>...]]
@@ -25,10 +25,29 @@ rem       SIZE	>PATH:STREAM
 rem --:
 rem   Separator to stop parse flags.
 
+rem <glob-path>
+rem   File path with globbing.
+rem   If not defined, then `.` is used.
+rem
+rem   NOTE:
+rem     The `.` and `*` has a difference and the former does not print root
+rem     directories for each file, when the latter does:
+rem
+rem        .             | *
+rem       ---------------+---------------
+rem       dir1           |
+rem       dir1/dir2      |dir1/dir2
+rem       dir1/dir2/file1|dir1/dir2/file1
+rem       dir2/dir3/file2|dir2/dir3/file2
+rem
+rem     Additionally the `*` has a different sort order of the root directory
+rem     files.
+
 rem <streams>
 rem   List of stream names.
 rem   If `*`, then a known list is used:
 rem     * Zone.identifier
+:DOC_END
 
 setlocal
 
@@ -85,7 +104,11 @@ if defined FLAG (
   if not "%FLAG%" == "--" goto FLAGS_LOOP
 )
 
+if defined FLAG_WD pushd "%FLAG_WD%" || exit /b 255
+
 set "FROM_PATH=%~1"
+
+if not defined FROM_PATH set "FROM_PATH=."
 
 set /A FLAG_SHIFT+=1
 call "%%CONTOOLS_ROOT%%/std/setshift.bat" %%FLAG_SHIFT%% __STRING__ %%*
@@ -95,28 +118,35 @@ if not defined __STRING__ (
   exit /b 255
 ) >&2
 
-if defined FLAG_WD (
-  set "WD=%FLAG_WD%"
-) else set "WD=%CD%"
-
-if not defined FROM_PATH set "FROM_PATH=."
-
-if not "%FROM_PATH:~0,1%" == "\" if not "%FROM_PATH:~1,1%" == ":" set "FROM_PATH=%WD%\%FROM_PATH%"
-
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!FROM_PATH!\.") do endlocal & set "FROM_DIR=%%~fi"
-
-if not exist "\\?\%FROM_DIR%\*" (
-  echo;%?~%: error: directory path does not exist: "%FROM_DIR%".
-  exit /b 1
-) >&2
-
 rem default list
 if ^%__STRING__:~0,1%^%__STRING__:~1,1%/ == ^*/ set "__STRING__=Zone.Identifier"
 
 rem escape globbing
 call "%%CONTOOLS_ROOT%%/std/encode/encode_glob_chars.bat"
 
-:MAIN_RECUR
+rem check on globbing characters in path
+if not "%FROM_PATH%" == "%FROM_PATH:**=%" goto FROM_PATH_WITH_GLOBBING
+if not "%FROM_PATH%" == "%FROM_PATH:?=%" goto FROM_PATH_WITH_GLOBBING
+if not "%FROM_PATH%" == "%FROM_PATH:<=%" goto FROM_PATH_WITH_GLOBBING
+if not "%FROM_PATH%" == "%FROM_PATH:>=%" goto FROM_PATH_WITH_GLOBBING
+
+goto FROM_PATH_NO_GLOBBING
+
+:FROM_PATH_WITH_GLOBBING
+for /D %%i in ("%FROM_PATH%") do set "FROM_DIR=%%~fi" & set "FILE=%%~nxi" & call :PROCESS_DIR
+for %%i in ("%FROM_PATH%") do set "FILE_PATH=%%~fi" & call :PROCESS_FILE
+exit /b 0
+
+:FROM_PATH_NO_GLOBBING
+for /F "tokens=* delims="eol^= %%i in ("%FROM_PATH%\.") do set "FROM_DIR=%%~fi" & set "FILE=%%~nxi"
+
+:PROCESS_DIR
+rem skip predefined directories
+if /i "%FILE%" == ".log" exit /b 0
+if /i "%FILE:~-7%" == ".backup" exit /b 0
+
+if %FLAG_RECUR% EQU 0 for /F "tokens=* delims="eol^= %%i in ("%FROM_DIR%\..") do set "FROM_DIR=%%~fi" & goto PROCESS_FILE_PATH
+
 rem CAUTION:
 rem   1. If a variable is empty, then it would not be expanded in the `cmd.exe`
 rem      command line or in the inner expression of the
@@ -134,10 +164,9 @@ for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do set "FILE=%%i" & ca
 exit /b 0
 
 :PROCESS_FILE_PATH
-rem skip `.log` directory
-if "%FILE%" == ".log" if exist ".log\*" exit /b
-
 for /F "tokens=* delims="eol^= %%i in ("%FROM_DIR%\%FILE%") do set "FILE_PATH=%%~fi"
+
+:PROCESS_FILE
 for /F "tokens=* delims="eol^= %%i in ("\\?\%FILE_PATH%") do set "FILE_ATTR=%%~ai"
 
 if not defined FILE_ATTR exit /b
@@ -164,5 +193,5 @@ for %%j in (%__STRING__%) do for /F "tokens=* delims="eol^= %%k in ("\\?\%%i:%%~
 if %FLAG_RECUR% NEQ 0 if /i not "%FILE_ATTR:d=%" == "%FILE_ATTR%" (
   setlocal
   set "FROM_DIR=%FILE_PATH%"
-  call :MAIN_RECUR
+  call :PROCESS_DIR
 )
