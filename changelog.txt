@@ -1,3 +1,6 @@
+2026.04.23:
+* new: scripts/Windows/User/print_wmic_user_list.bat: `wmic` command to print user account names and SID's
+
 2026.04.04:
 * fixed: scripts/Windows/FileSystem: print_file_paths.bat, clear_file_streams.bat: proper file globbing detection
 
