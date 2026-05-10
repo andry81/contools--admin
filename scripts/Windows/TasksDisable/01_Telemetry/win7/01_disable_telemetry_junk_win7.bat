@@ -94,7 +94,7 @@ if exist "%RETAKEOWNER_EXE%" goto RETAKEOWNER_WORKAROUND
 
 rem CAUTION: Obsolete implementation, `takeown` and `icacls` does not work anymore on TrustedInstaller protected files!
 echo;%?~%: warning: system takeown utility may fail to take ownership on TrustedInstaller protected files beginning from Windows 7. Copy `retakeowner.exe` utility into directory with the script to bypass this issue.
-call :CMD takeown /S localhost /U "%%USERNAME%%" /F "%%FILE%%"
+call :CMD "%%SystemRoot%%\System32\takeown.exe" /S localhost /U "%%USERNAME%%" /F "%%FILE%%"
 
 goto RETAKEOWNER_WORKAROUND_END
 
@@ -104,8 +104,8 @@ echo;%?~%: retakeowner last error code: %ERRORLEVEL%
 
 :RETAKEOWNER_WORKAROUND_END
 
-call :CMD icacls "%%FILE%%" /remove:g "NT SERVICE\TrustedInstaller"
-call :CMD icacls "%%FILE%%" /deny "*S-1-1-0:(WO,GE)"
+call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%FILE%%" /remove:g "NT SERVICE\TrustedInstaller"
+call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%FILE%%" /deny "*S-1-1-0:(WO,GE)"
 
 echo;
 

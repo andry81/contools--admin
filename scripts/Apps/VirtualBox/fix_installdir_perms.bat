@@ -162,18 +162,18 @@ echo;
 
 if defined INSTALLDIR_SUFFIX (
   rem not the end installation directory, without recursion
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /reset /c || exit /b
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /inheritance:d /c || exit /b
+  call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /reset /c || exit /b
+  call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /inheritance:d /c || exit /b
 ) else (
   rem the end installation directory, with recursion
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /reset /t /c || exit /b
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /inheritance:d /t /c || exit /b
+  call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /reset /t /c || exit /b
+  call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /inheritance:d /t /c || exit /b
 )
 
-call :CMD icacls "%INSTALLDIR_PREFIX%" /grant "*S-1-5-32-545:(OI)(CI)(RX)" || exit /b
-call :CMD icacls "%INSTALLDIR_PREFIX%" /deny "*S-1-5-32-545:(DE,WD,AD,WEA,WA)" || exit /b
-call :CMD icacls "%INSTALLDIR_PREFIX%" /grant "*S-1-5-11:(OI)(CI)(RX)" || exit /b
-call :CMD icacls "%INSTALLDIR_PREFIX%" /deny "*S-1-5-11:(DE,WD,AD,WEA,WA)" || exit /b
+call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /grant "*S-1-5-32-545:(OI)(CI)(RX)" || exit /b
+call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /deny "*S-1-5-32-545:(DE,WD,AD,WEA,WA)" || exit /b
+call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /grant "*S-1-5-11:(OI)(CI)(RX)" || exit /b
+call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /deny "*S-1-5-11:(DE,WD,AD,WEA,WA)" || exit /b
 
 echo;
 

@@ -25,7 +25,7 @@ call "%%CONTOOLS_ROOT%%/std/is_system_elevated.bat" || (
   exit /b 255
 ) >&2
 
-call :CMD icacls "%%SystemRoot%%\System32\Tasks" /deny "*S-1-1-0:(WD)"
+call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%SystemRoot%%\System32\Tasks" /deny "*S-1-1-0:(WD)"
 
 echo;
 

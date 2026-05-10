@@ -158,13 +158,13 @@ echo;
 
 if defined INSTALLDIR_SUFFIX (
   rem not the end installation directory, without recursion
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /reset /c || exit /b
+  call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /reset /c || exit /b
 ) else if %FLAG_RECUR% NEQ 0 (
   rem the end installation directory, with recursion
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /reset /t /c || exit /b
+  call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /reset /t /c || exit /b
 ) else (
   rem not the end installation directory, without recursion
-  call :CMD icacls "%INSTALLDIR_PREFIX%" /reset /c || exit /b
+  call :CMD "%%SystemRoot%%\System32\icacls.exe" "%%INSTALLDIR_PREFIX%%" /reset /c || exit /b
 )
 
 echo;
