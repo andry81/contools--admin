@@ -1,3 +1,6 @@
+2026.05.18:
+* refactor: scripts/Windows/Fonts/reset_font_file_permissions.bat: minor change
+
 2026.05.10:
 * fixed: scripts/__init__/script_init.bat: missed the elevation in case of `pause-on-exit` is disabled
 * new: scripts/Windows/Fonts/reset_font_file_permissions.bat: script to reset a font file permissions
