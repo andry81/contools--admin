@@ -18,3 +18,5 @@ call "%%~dp0canonical_path.bat" VS_PACKAGES_CACHE_ROOT                          
 set "VS_BOOTSTRAPPER_EXE=vs_Professional_15_9_28307_2094.exe"
 
 set "VS_COMMON_CMDLINE=--add Microsoft.VisualStudio.Workload.NativeDesktop --includeRecommended"
+
+exit /b 0

@@ -1,4 +1,7 @@
 2026.05.18:
+* changed: __init__.bat, script_init.bat: update to a common form
+
+2026.05.18:
 * refactor: scripts/Windows/Fonts/reset_font_file_permissions.bat: minor change
 
 2026.05.10:

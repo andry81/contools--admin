@@ -1,1 +1,9 @@
-@call "%%~dp0..\..\__init__\script_init.bat" %%* || exit /b
+@echo off
+
+if defined CONTOOLS_ADMIN_PROJECT_ROOT_INIT0_DIR if exist "%CONTOOLS_ADMIN_PROJECT_ROOT_INIT0_DIR%\*" exit /b 0
+
+call "%%~dp0__init__.bat" || exit /b
+
+call "%%~dp0..\..\__init__\script_init.bat" %%* || exit /b
+
+exit /b 0
