@@ -36,6 +36,7 @@ call "%%~dp0canonical_path_if_ndef.bat" CONTOOLS_ADMIN_PROJECT_OUTPUT_CONFIG_ROO
 rem retarget externals of an external project
 
 call "%%~dp0canonical_path_if_ndef.bat" CONTOOLS_PROJECT_EXTERNALS_ROOT                     "%%CONTOOLS_ADMIN_PROJECT_EXTERNALS_ROOT%%"
+call "%%~dp0canonical_path_if_ndef.bat" USERBIN_PROJECT_EXTERNALS_ROOT                      "%%CONTOOLS_ADMIN_PROJECT_EXTERNALS_ROOT%%"
 
 rem init immediate external projects
 
@@ -48,7 +49,12 @@ if exist "%CONTOOLS_ADMIN_PROJECT_EXTERNALS_ROOT%/contools/__init__/__init__.bat
 
 rem init external projects
 
-rem ...
+if exist "%CONTOOLS_ADMIN_PROJECT_EXTERNALS_ROOT%/userbin/__init__/__init__.bat" (
+  rem disable code page change in nested __init__
+  set /A NO_CHCP+=1
+  call "%%CONTOOLS_ADMIN_PROJECT_EXTERNALS_ROOT%%/userbin/__init__/__init__.bat" -no_load_user_config || exit /b
+  set /A NO_CHCP-=1
+)
 
 if %NO_GEN%0 EQU 0 (
   call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/mkdir_if_notexist.bat" "%%CONTOOLS_ADMIN_PROJECT_OUTPUT_CONFIG_ROOT%%" || exit /b

@@ -1,4 +1,8 @@
 2026.05.19:
+* changed: *.bat: scripts retarget from `contools` project to `userbin` project
+* changed: .externals: scripts moved from `scripts/tools/ToolAdaptors/hta` to `userbin` project
+
+2026.05.19:
 * fixed: script_init.bat: execution fixup
 
 2026.05.19:

@@ -20,7 +20,7 @@ rem if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~n
 set "?~=%~nx0"
 
 if 0%IMPL_MODE% NEQ 0 goto IMPL
-"%CONTOOLS_TOOL_ADAPTORS_ROOT%/hta/cmd_admin.bat" /c @set "IMPL_MODE=1" ^& "%~f0" %*
+"%USERBIN_SCRIPTS_BAT_ROOT%/runas/hta/cmd-admin.bat" /c @set "IMPL_MODE=1" ^& "%~f0" %*
 exit /b
 
 :IMPL
