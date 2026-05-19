@@ -1,4 +1,7 @@
 2026.05.19:
+* fixed: script_init.bat: execution fixup
+
+2026.05.19:
 * new: scripts/Windows/Perm/xcacls.vbs: 3dparty script to be able to remove a directory permissions inheritance (`/I REMOVE`) in Windows XP (`icacls.exe` does not support `/inheritance` flag in Windows XP)
 
 2026.05.18:
