@@ -11,6 +11,7 @@ repositories:
       - scripts/tools/__init__
       - scripts/tools/build
       - scripts/tools/cleanup
+      - scripts/tools/encoding
       - scripts/tools/exec
       - scripts/tools/std
       - scripts/tools/wmi

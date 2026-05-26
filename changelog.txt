@@ -1,4 +1,7 @@
 2026.05.26:
+* new: scripts/Windows/Perm/patch_acl_file.bat: script to patch ACL files from `icacls.exe` utility
+
+2026.05.26:
 * new: scripts/Windows/Restore/*.bat: System Restore scripts to create/list/delete
 
 2026.05.19:
