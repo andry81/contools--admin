@@ -1,3 +1,6 @@
+2026.05.26:
+* new: scripts/Windows/Restore/*.bat: System Restore scripts to create/list/delete
+
 2026.05.19:
 * changed: *.bat: scripts retarget from `contools` project to `userbin` project
 * changed: .externals: scripts moved from `scripts/tools/ToolAdaptors/hta` to `userbin` project
