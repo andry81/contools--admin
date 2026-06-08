@@ -98,30 +98,32 @@ rem
 rem Windows Batch compatible command line with escapes (`\""` is a single nested `"`, `\""""` is a double nested `"` and so on).
 set ?.=set "IMPL_MODE=1" ^& cd "%CD%" ^& %CD:~0,2% ^& "%?~f0%" %* ^& pause
 
-rem translate Windows Batch compatible escapes into escape placeholders
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$=$0!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:\""""""""=$4!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:\""""=$3!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:\""=$2!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:"^=$1!"") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:~0,-1!") do endlocal & set "?.=%%i"
+(
+  setlocal ENABLEDELAYEDEXPANSION
 
-rem translate escape placeholders into `mshta.exe` (vbs) escapes (`""` is a single nested `"`, `""""` is a double nested `"` and so on)
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$4=""""""""""""""""""""""""""""""""!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$3=""""""""""""""""!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$2=""""""""!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$1=""""!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$0=$!") do endlocal & set "?.=%%i"
+  rem translate Windows Batch compatible escapes into escape placeholders
+  set "?.=!?.:$=$0!"
+  set "?.=!?.:\""""""""=$4!"
+  set "?.=!?.:\""""=$3!"
+  set "?.=!?.:\""=$2!"
+  set "?.=!?.:"^=$1!"
 
-rem CAUTION: ShellExecute does not wait a child process close!
-rem NOTE: `ExecuteGlobal` is used as a workaround, because the `mshta.exe` first argument must not be used with the surrounded quotes
+  rem translate escape placeholders into `mshta.exe` (vbs) escapes (`""` is a single nested `"`, `""""` is a double nested `"` and so on)
+  set "?.=!?.:$4=""""""""""""""""""""""""""""""""!"
+  set "?.=!?.:$3=""""""""""""""""!"
+  set "?.=!?.:$2=""""""""!"
+  set "?.=!?.:$1=""""!"
+  set "?.=!?.:$0=$!"
 
-rem with locals drop
-setlocal ENABLEDELAYEDEXPANSION & ^
-for /F "usebackq tokens=* delims="eol^= %%i in ('"!COMSPEC!"') do ^
-for /F "usebackq tokens=* delims="eol^= %%j in ('"!?.!"') do endlocal & endlocal & ^
-start "" /B /WAIT "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%%~i"", ""/c @%%~j"", """", ""runas"", 1))")
-exit /b
+  rem CAUTION: ShellExecute does not wait a child process close!
+  rem NOTE: `ExecuteGlobal` is used as a workaround, because the `mshta.exe` first argument must not be used with the surrounded quotes
+
+  rem with locals drop
+  for /F "usebackq tokens=* delims="eol^= %%i in ('"!COMSPEC!"') do break ^
+  & for /F "usebackq tokens=* delims="eol^= %%j in ('"!?.!"') do endlocal & endlocal ^
+  & start "" /B /WAIT "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%%~i"", ""/c @%%~j"", """", ""runas"", 1))")
+  exit /b
+)
 
 :ELEVATED
 set ELEVATED=1
