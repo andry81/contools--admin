@@ -1,3 +1,6 @@
+2026.06.08:
+* changed: *.bat: `start` command call documented format
+
 2026.06.07:
 * new: scripts/Windows/Shortcut: Windows shortcut scripts
 
