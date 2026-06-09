@@ -65,7 +65,7 @@ set ?.=set "IMPL_MODE=1" ^& "%~f0" %* ^& pause
   rem with locals drop
   for /F "usebackq tokens=* delims="eol^= %%i in ('"!COMSPEC!"') do break ^
   & for /F "usebackq tokens=* delims="eol^= %%j in ('"!?.!"') do endlocal & endlocal ^
-  & start "" /B /WAIT "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%%~i"", ""/c @%%~j"", """", ""runas"", 1))")
+  & start "" /B /WAIT "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%%~i"", ""/c @%%~j"", """", ""runas"", 1))"^)
   exit /b
 )
 

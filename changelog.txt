@@ -1,3 +1,6 @@
+2026.06.09:
+* fixed: scripts/*.bat: execution fixup
+
 2026.06.08:
 * changed: *.bat: code improvement and reduction
 
