@@ -46,11 +46,14 @@ rem Based on:
 rem   `Uniform variant of a command line as a single argument for the `mshta.exe` executable and other cases` :
 rem   https://github.com/andry81/contools/discussions/11
 
-rem Windows Batch compatible command line with escapes (`\""` is a single nested `"`, `\""""` is a double nested `"` and so on).
+rem Windows Batch compatible command line with escapes
 set ?.=set "IMPL_MODE=1" ^& "%~f0" %* ^& pause
 
 (
   setlocal ENABLEDELAYEDEXPANSION
+
+  rem escape %-escapes
+  set "?.=!?.:%%=%%25!"
 
   rem translate Windows Batch compatible escapes into escape placeholders
   set "?.=!?.:$=$0!"
@@ -59,7 +62,7 @@ set ?.=set "IMPL_MODE=1" ^& "%~f0" %* ^& pause
   set "?.=!?.:\""=$2!"
   set "?.=!?.:"^=$1!"
 
-  rem translate escape placeholders into `mshta.exe` (vbs) escapes (`""` is a single nested `"`, `""""` is a double nested `"` and so on)
+  rem translate escape placeholders into `mshta.exe` (vbs) escapes
   set "?.=!?.:$4=""""""""""""""""""""""""""""""""!"
   set "?.=!?.:$3=""""""""""""""""!"
   set "?.=!?.:$2=""""""""!"

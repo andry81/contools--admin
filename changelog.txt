@@ -1,3 +1,7 @@
+2026.06.15:
+* fixed: scripts/*.bat: `%NN` expansion prevention
+* refactor: scripts/*.bat: minor cleanup
+
 2026.06.10:
 * new: scripts/Windows/User/post_wm_settingchange.bat: script to explicitly trigger `WM_SETTINGCHANGE` message at all user session windows
 

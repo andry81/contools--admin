@@ -95,11 +95,14 @@ rem CAUTION:
 rem   The `cd "%CD%" ^& %CD:~0,2%` must be before the command, otherwise the system root will be the current directory!
 rem
 
-rem Windows Batch compatible command line with escapes (`\""` is a single nested `"`, `\""""` is a double nested `"` and so on).
+rem Windows Batch compatible command line with escapes
 set ?.=set "IMPL_MODE=1" ^& cd "%CD%" ^& %CD:~0,2% ^& "%?~f0%" %* ^& pause
 
 (
   setlocal ENABLEDELAYEDEXPANSION
+
+  rem escape %-escapes
+  set "?.=!?.:%%=%%25!"
 
   rem translate Windows Batch compatible escapes into escape placeholders
   set "?.=!?.:$=$0!"
@@ -108,7 +111,7 @@ set ?.=set "IMPL_MODE=1" ^& cd "%CD%" ^& %CD:~0,2% ^& "%?~f0%" %* ^& pause
   set "?.=!?.:\""=$2!"
   set "?.=!?.:"^=$1!"
 
-  rem translate escape placeholders into `mshta.exe` (vbs) escapes (`""` is a single nested `"`, `""""` is a double nested `"` and so on)
+  rem translate escape placeholders into `mshta.exe` (vbs) escapes
   set "?.=!?.:$4=""""""""""""""""""""""""""""""""!"
   set "?.=!?.:$3=""""""""""""""""!"
   set "?.=!?.:$2=""""""""!"
