@@ -1,3 +1,7 @@
+2026.06.23:
+* fixed: scripts/*.vbs: stdout and stderr line ends output mix
+* refactor: scripts/*.vbs: refactor
+
 2026.06.15:
 * fixed: scripts/*.bat: `%NN` expansion prevention
 * refactor: scripts/*.bat: minor cleanup

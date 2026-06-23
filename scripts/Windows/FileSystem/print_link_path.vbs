@@ -3,6 +3,11 @@
 ''' USAGE:
 '''   print_link_path.vbs <path>
 
+''' CAUTION:
+'''   The `WScript.std[out|err].WriteLine STR` functions has issue with the
+'''   last line desynchronization between streams.
+'''   To workaround use `WScript.std[out|err].Write STR & vbCrLf` instead.
+
 Function FixStrToPrint(str)
   Dim new_str : new_str = ""
   Dim i, Char, CharAsc
@@ -25,9 +30,9 @@ End Function
 
 Sub PrintOrEchoLine(str)
   On Error Resume Next
-  WScript.stdout.WriteLine str
+  WScript.stdout.Write str & vbCrLf
   If err = 5 Then ' Access is denied
-    WScript.stdout.WriteLine FixStrToPrint(str)
+    WScript.stdout.Write FixStrToPrint(str) & vbCrLf
   ElseIf err = &h80070006& Then
     WScript.Echo str
   End If

@@ -3,6 +3,11 @@
 ''' USAGE:
 '''   disable_tasksched_triggers.vbs <TaskPath>
 
+''' CAUTION:
+'''   The `WScript.std[out|err].WriteLine STR` functions has issue with the
+'''   last line desynchronization between streams.
+'''   To workaround use `WScript.std[out|err].Write STR & vbCrLf` instead.
+
 Function IsNothing(obj)
   If IsEmpty(obj) Then
     IsNothing = True
@@ -78,9 +83,9 @@ End Function
 
 Sub PrintOrEchoLine(str)
   On Error Resume Next
-  WScript.stdout.WriteLine str
+  WScript.stdout.Write str & vbCrLf
   If err = 5 Then ' Access is denied
-    WScript.stdout.WriteLine FixStrToPrint(str)
+    WScript.stdout.Write FixStrToPrint(str) & vbCrLf
   ElseIf err = &h80070006& Then
     WScript.Echo str
   End If
@@ -89,9 +94,9 @@ End Sub
 
 Sub PrintOrEchoErrorLine(str)
   On Error Resume Next
-  WScript.stderr.WriteLine str
+  WScript.stderr.Write str & vbCrLf
   If err = 5 Then ' Access is denied
-    WScript.stderr.WriteLine FixStrToPrint(str)
+    WScript.stderr.Write FixStrToPrint(str) & vbCrLf
   ElseIf err = &h80070006& Then
     WScript.Echo str
   End If
