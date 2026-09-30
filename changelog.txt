@@ -1,3 +1,6 @@
+2026.09.30:
+* fixed: scripts/Windows/FileSystem/ping_drives.bat: use `cd /d` instead of `cd` to avoid lock of a current directory drive
+
 2026.09.16:
 * fixed: scripts/Windows/GroupPolicy/install_hklm_shutdown_command.bat: minor improvements
 

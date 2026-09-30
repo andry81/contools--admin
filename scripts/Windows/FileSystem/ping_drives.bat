@@ -11,8 +11,9 @@ rem   Skips on the read only file attribute and prints the skipped drives.
 
 setlocal
 
-rem switch to the current directory drive root to release the current directory and avoid it's accidental lock
-cd \ & cd "%TEMP%"
+rem switch to the current directory drive root to release the current directory and avoid it's accidental lock, and then
+rem switch to a temporary directory to release the current directory drive root
+cd \ & cd /d "%TEMP%"
 
 set COUNT=0
 
