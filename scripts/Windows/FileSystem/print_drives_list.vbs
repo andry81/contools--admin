@@ -1,7 +1,7 @@
 ''' Gets list of drives and drive properties.
 
 ''' Print format:
-'''   <Letter>|<Type>|<FileSystem>|<SerialNumber>|<Path>|<ShareName>|<VolumeName>
+'''   <Letter>|<Type>|<FileSystem>|<SerialNumber>|<TotalSize>|<Path>|<ShareName>|<VolumeName>
 '''
 '''   NOTE:
 '''     If a value is empty or can not be retrieved, then the `?` character is
@@ -101,27 +101,29 @@ Sub PrintOrEchoErrorLine(str)
   On Error Goto 0
 End Sub
 
-Dim Drive, DriveIsReadyStr, DriveLetter, DriveType, DriveTypeStr, FileSystemStr, SerialNumberStr
-Dim Path, ShareName, VolumeName
+Dim DriveLetter, DriveType, DriveTypeStr, FileSystemStr, SerialNumberStr, TotalSize
+Dim Name, ShareName, VolumeName
 
 Dim objFS : Set objFS = CreateObject("Scripting.FileSystemObject")
 
 For Each Drive in objFS.Drives
   DriveLetter = Drive.DriveLetter
   DriveType = Drive.DriveType
+  DriveTypeStr = "?"
 
   Select Case DriveType
-    case 0: DriveTypeStr = "Unknown"
-    case 1: DriveTypeStr = "Removable"
-    case 2: DriveTypeStr = "Fixed"
-    case 3: DriveTypeStr = "Network"
-    case 4: DriveTypeStr = "CD-ROM"
-    case 5: DriveTypeStr = "RAM Disk"
+    Case 0: DriveTypeStr = "Unknown"
+    Case 1: DriveTypeStr = "Removable"
+    Case 2: DriveTypeStr = "Fixed"
+    Case 3: DriveTypeStr = "Network"
+    Case 4: DriveTypeStr = "CD-ROM"
+    Case 5: DriveTypeStr = "RAM Disk"
   End Select
 
   If Drive.IsReady Then
     FileSystemStr = Drive.FileSystem
     SerialNumberStr = Hex(Drive.SerialNumber)
+    TotalSize = Drive.TotalSize
     VolumeName = Drive.VolumeName
 
     If Not (Len(FileSystemStr) > 0) Then
@@ -130,12 +132,16 @@ For Each Drive in objFS.Drives
     If Not (Len(SerialNumberStr) > 0) Then
       SerialNumberStr = "?"
     End If
+    If Not (Len(TotalSize) > 0) Then
+      TotalSize = "?"
+    End If
     If Not (Len(VolumeName) > 0) Then
       VolumeName = "?"
     End If
   Else
     FileSystemStr = "?"
     SerialNumberStr = "?"
+    TotalSize = "?"
     VolumeName = "?"
   End If
 
@@ -156,5 +162,5 @@ For Each Drive in objFS.Drives
     ShareName = "?"
   End If
 
-  PrintOrEchoLine DriveLetter & "|" & DriveTypeStr & "|" & FileSystemStr & "|" & SerialNumberStr & "|" & Path & "|" & ShareName & "|" & VolumeName
+  PrintOrEchoLine DriveLetter & "|" & DriveTypeStr & "|" & FileSystemStr & "|" & SerialNumberStr & "|" & TotalSize & "|" & Path & "|" & ShareName & "|" & VolumeName
 Next 

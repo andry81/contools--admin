@@ -152,10 +152,10 @@ rem back up at first
 
 set "BACKUP_DIR=%SystemRoot%\System32\GroupPolicy\%DATE_FNAME%.backup\%TIME_FNAME%"
 
-( call "%%CONTOOLS_ROOT%%/std/mkdir_if_notexist_and.bat" "%%SystemRoot%%\System32\GroupPolicy\Machine\Scripts\Shutdown" && echo; ) ^
+( call "%%CONTOOLS_ROOT%%/std/mkdir_if_notexist_and.bat" "%%SystemRoot%%\System32\GroupPolicy\Machine\Scripts\Shutdown" && echo;) ^
   || call "%%CONTOOLS_ROOT%%/std/if_pass.bat" %%ERRORLEVEL%% EQU -1 || exit /b
 
-( call "%%CONTOOLS_ROOT%%/std/mkdir_if_notexist_and.bat" "%%BACKUP_DIR%%\Machine\Scripts\Shutdown" && echo; ) ^
+( call "%%CONTOOLS_ROOT%%/std/mkdir_if_notexist_and.bat" "%%BACKUP_DIR%%\Machine\Scripts\Shutdown" && echo;) ^
   || call "%%CONTOOLS_ROOT%%/std/if_pass.bat" %%ERRORLEVEL%% EQU -1 || exit /b
 
 (
