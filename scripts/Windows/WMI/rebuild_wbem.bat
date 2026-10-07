@@ -225,7 +225,7 @@ call :CMD "%%SystemRoot%%\SysWOW64\wbem\winmgmt.exe" /resyncperf
 exit /b 0
 
 :REREG
-call :CMD cd "%%SYSDIR%%\wbem" || exit /b
+call :CMD cd /d "%%SYSDIR%%\wbem" || exit /b
 
 echo;Rebuilding "%SYSDIR%"...
 
@@ -235,7 +235,7 @@ call :CMD "%%SYSDIR%%\wbem\winmgmt.exe" /kill
 setlocal
 
 rem CD to system drive root
-call :CMD cd "%%SystemDrive%%"
+call :CMD cd /d "%%SystemDrive%%"
 
 call :CMD "%SYSDIR%\regsvr32.exe" /s "%SYSDIR%\scecli.dll"
 call :CMD "%SYSDIR%\regsvr32.exe" /s "%SYSDIR%\userenv.dll"
@@ -261,7 +261,7 @@ set "FILE=%%i" & call :CMD "%%FILE%%" /regserver
 setlocal
 
 rem CD to system drive root
-call :CMD cd "%%SystemDrive%%"
+call :CMD cd /d "%%SystemDrive%%"
 
 rem exclude `uninstall` and `remove`
 for /F "usebackq tokens=* delims="eol^= %%i in (`@dir "%%SYSDIR%%\wbem\*.mof" /A:-D /B /O:N ^| "%%SystemRoot%%\System32\findstr.exe" /I /V /C:"uninstall" /C:"remove"`) do ^

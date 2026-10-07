@@ -1,4 +1,7 @@
 2026.10.07:
+* fixed: scripts/Windows/WMI/rebuild_wbem.bat: use `cd /d` instead of `cd` to avoid lock of a current directory drive
+
+2026.10.07:
 * refactor: scripts/Windows/User/*.bat: scripts refactor
 
 2026.10.07:
