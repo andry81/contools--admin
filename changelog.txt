@@ -1,4 +1,7 @@
 2026.10.07:
+* refactor: scripts/Windows/User/*.bat: scripts refactor
+
+2026.10.07:
 * changed: scripts/Windows/FileSystem/print_drives_list.vbs: minor improvement
 * changed: scripts/Windows/GroupPolicy/install_hklm_shutdown_command.bat: code cleanup
 * refactor: scripts/Windows/FileSystem: *.bat, *.vbs: scripts refactor
