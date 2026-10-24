@@ -159,8 +159,8 @@ set "BACKUP_DIR=%SystemRoot%\System32\GroupPolicy\%DATE_FNAME%.backup\%TIME_FNAM
   || call "%%CONTOOLS_ROOT%%/std/if_pass.bat" %%ERRORLEVEL%% EQU -1 || exit /b
 
 (
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%SystemRoot%%\System32\reg.exe" export "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Shutdown"               "%%BACKUP_DIR%%\Machine\Scripts\Shutdown.reg"
-  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%SystemRoot%%\System32\reg.exe" export "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Group Policy\State\Machine\Scripts\Shutdown" "%%BACKUP_DIR%%\Machine\Scripts\ShutdownState.reg"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%SystemRoot%%\System32\reg.exe" export "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Shutdown"               "%%BACKUP_DIR%%\Machine\Scripts\Shutdown.reg"
+  call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%SystemRoot%%\System32\reg.exe" export "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Group Policy\State\Machine\Scripts\Shutdown" "%%BACKUP_DIR%%\Machine\Scripts\ShutdownState.reg"
 ) 2>nul
 
 if %FLAG_SCRIPT% EQU 0 goto SKIP_BACKUP_CMD

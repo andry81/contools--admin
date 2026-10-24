@@ -38,7 +38,7 @@ mkdir "%TEMP_DIR%"
 ) > "%TEMP_DIR%\packages.lst"
 
 for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%SystemRoot%%\System32\findstr.exe" /I . "%%TEMP_DIR%%\packages.lst" 2^>nul`) do ^
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" dism /online /norestart /add-package:"%%SystemRoot%%\servicing\Packages\%%i"
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" dism /online /norestart /add-package:"%%SystemRoot%%\servicing\Packages\%%i"
 
 rmdir /S /Q "%TEMP_DIR%"
 

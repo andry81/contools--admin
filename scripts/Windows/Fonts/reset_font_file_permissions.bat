@@ -129,7 +129,7 @@ if not defined FILE_ATTR exit /b
 rem skip links
 if /i not "%FILE_ATTR:l=%" == "%FILE_ATTR%" exit /b
 
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%SystemRoot%%\System32\icacls.exe" "%%FILE_PATH%%" /reset /c || exit /b
-call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%SystemRoot%%\System32\icacls.exe" "%%FILE_PATH%%" /setowner "NT AUTHORITY\SYSTEM" || exit /b
-rem call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call.bat" "%%SystemRoot%%\System32\takeown.exe" /S localhost /U "SYSTEM" /F "%%FILE_PATH%%" || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%SystemRoot%%\System32\icacls.exe" "%%FILE_PATH%%" /reset /c || exit /b
+call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%SystemRoot%%\System32\icacls.exe" "%%FILE_PATH%%" /setowner "NT AUTHORITY\SYSTEM" || exit /b
+rem call "%%CONTOOLS_BUILD_TOOLS_ROOT%%/call_.bat" "%%SystemRoot%%\System32\takeown.exe" /S localhost /U "SYSTEM" /F "%%FILE_PATH%%" || exit /b
 echo;
