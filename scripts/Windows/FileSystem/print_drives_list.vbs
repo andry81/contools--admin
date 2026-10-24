@@ -1,4 +1,4 @@
-''' Gets list of drives and drive properties.
+''' Prints list of drives and drive properties.
 
 ''' Print format:
 '''   <Letter>|<Type>|<FileSystem>|<SerialNumber>|<TotalSize>|<Path>|<ShareName>|<VolumeName>
