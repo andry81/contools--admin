@@ -1,3 +1,6 @@
+2026.10.25:
+* changed: scripts/Windows/FileSystem/ping_drives.bat: minor improvement
+
 2026.10.24:
 * changed: *.bat: switched to use `call_.bat` script
 
