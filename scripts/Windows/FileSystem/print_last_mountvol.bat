@@ -5,10 +5,13 @@ rem   print_last_mountvol.bat
 
 rem Description:
 rem   Script prints last known local drive volume GUIDs used to be printed by
-rem   the `mountvol.exe` utility if a local drive is powered on and mounted.
+rem   the `mountvol.exe` utility if a local (including a connected) drive has
+rem   been powered on and mounted at least once, and as the last one for the
+rem   letter.
 rem
-rem   The difference with the utility, it prints only for local drives and for
-rem   each drive letter even if a drive letter currently is not attached.
+rem   The difference with the utility is that it prints only for local drives
+rem   and for each drive letter even if a drive letter currently is not
+rem   attached or connected.
 rem
 rem   See:
 rem     HKEY_LOCAL_MACHINE\SYSTEM\MountedDevices
@@ -34,9 +37,10 @@ if /i not "%REG_VALUE:~0,16%" == "444D494F3A49443A" exit /b & rem DMIO:ID:
 set "VOLUME_GUID_BYTES=%REG_VALUE:~16,64%"
 
 rem safe print
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!REG_KEY:~12!|\\?\Volume{") do endlocal & ( set /P "=%%i" <nul )
+setlocal ENABLEDELAYEDEXPANSION
 
-setlocal ENABLEDELAYEDEXPANSION ^
-  & ( for %%i in (6 4 2 0 - 10 8 - 14 12) do if not "%%i" == "-" ( set /P "=!VOLUME_GUID_BYTES:~%%i,2!" <nul ) else set /P "=-" <nul ) & endlocal
+set /P "=!REG_KEY:~12!|\\?\Volume{" <nul
 
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("-!VOLUME_GUID_BYTES:~16,4!-!VOLUME_GUID_BYTES:~20,12!}\") do endlocal & echo;%%i
+for %%i in (6 4 2 0 - 10 8 - 14 12) do if not "%%i" == "-" ( set /P "=!VOLUME_GUID_BYTES:~%%i,2!" <nul ) else set /P "=-" <nul
+
+echo;-!VOLUME_GUID_BYTES:~16,4!-!VOLUME_GUID_BYTES:~20,12!}\

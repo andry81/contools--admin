@@ -1,3 +1,6 @@
+2026.10.28:
+* changed: scripts/Windows/FileSystem/print_last_mountvol.bat: minor improvement
+
 2026.10.25:
 * changed: scripts/Windows/FileSystem/ping_drives.bat: minor improvement
 
