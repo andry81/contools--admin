@@ -1,4 +1,7 @@
 2026.10.28:
+* new: scripts/Windows/EventLog/print_wevt_last_errors.bat: script to print Even Log `System` and `Application` last errors and warnings
+
+2026.10.28:
 * changed: scripts/Windows/FileSystem/print_last_mountvol.bat: minor improvement
 
 2026.10.25:
