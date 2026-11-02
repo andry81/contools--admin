@@ -1,4 +1,7 @@
 2026.11.02:
+* refactor: scrips/Windows/Network/*_net_interface.bat: moved to a standalone sub directory
+
+2026.11.02:
 * refactor: scripts/Windows: moved all the scripts into respective sub directories
 
 2026.10.28:
