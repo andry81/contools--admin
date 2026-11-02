@@ -1,4 +1,7 @@
 2026.11.02:
+* changed: scripts/Windows/GroupPolicy/enable_gp.bat: use direct path to `dism.exe`
+
+2026.11.02:
 * new: scripts/Windows/Network/*_net_tcp_timestamps.bat: scripts for manual enable/disable net TCP timestamps
 * changed: scripts/Windows/Network/*_net_interface.bat: use direct path to `netsh.exe`
 
