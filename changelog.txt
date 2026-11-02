@@ -1,3 +1,6 @@
+2026.11.02:
+* refactor: scripts/Windows: moved all the scripts into respective sub directories
+
 2026.10.28:
 * new: scripts/Windows/EventLog/print_wevt_last_errors.bat: script to print Even Log `System` and `Application` last errors and warnings
 
