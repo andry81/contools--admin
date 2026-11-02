@@ -190,5 +190,5 @@ if %ELEVATED% EQU 0 call :IS_ADMIN_ELEVATED || (
 ) >&2
 
 rem Network interface
-echo;^>netsh.exe interface set interface name="%~1" admin=ENABLED
-netsh.exe interface set interface name="%~1" admin=ENABLED
+echo;^>"%SystemRoot%\System32\netsh.exe" interface set interface name="%~1" admin=ENABLED
+"%SystemRoot%\System32\netsh.exe" interface set interface name="%~1" admin=ENABLED

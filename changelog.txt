@@ -1,4 +1,8 @@
 2026.11.02:
+* new: scripts/Windows/Network/*_net_tcp_timestamps.bat: scripts for manual enable/disable net TCP timestamps
+* changed: scripts/Windows/Network/*_net_interface.bat: use direct path to `netsh.exe`
+
+2026.11.02:
 * refactor: scrips/Windows/Network/*_net_interface.bat: moved to a standalone sub directory
 
 2026.11.02:
